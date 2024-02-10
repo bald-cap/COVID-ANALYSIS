@@ -47,6 +47,7 @@ num_uni_department <- dbGetQuery(
   ON U.ID_DEPARTMENT = D.ID
   GROUP BY D.ID"
 )
+print(num_uni_department)
 
 num_uni_department_peuple <- dbGetQuery(
   connection,
@@ -57,6 +58,6 @@ num_uni_department_peuple <- dbGetQuery(
   WHERE D.POPULATION > 300000
   GROUP BY D.ID"
 )
-
+print(num_uni_department_peuple)
 #Exo 3
 #Genere une boxplot
