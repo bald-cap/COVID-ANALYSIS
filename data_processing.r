@@ -59,5 +59,22 @@ num_uni_department_peuple <- dbGetQuery(
   GROUP BY D.ID"
 )
 print(num_uni_department_peuple)
+
 #Exo 3
 #Genere une boxplot
+population <- dbGetQuery(
+  connection,
+  "SELECT D.NOM_DEP, D.POPULATION
+  FROM DEPARTMENTS D
+  INNER JOIN UNIVERSITIES U
+  ON U.ID_DEPARTMENT = D.ID
+  GROUP BY D.ID"
+)
+
+new_boxplot <- boxplot(
+  POPULATION ~ NOM_DEP,
+  data = population,
+  xlab = "POPULATION",
+  ylab = "DEPARTMENTS",
+  main = "BOXPLOT DES POPULATIONS DES DEPARTMENTS"
+)
