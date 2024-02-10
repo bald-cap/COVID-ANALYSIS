@@ -72,7 +72,7 @@ population <- dbGetQuery(
 )
 
 new_boxplot <- boxplot(
-  POPULATION ~ NOM_DEP,
+  POPULATION ~ NOM_DEP, # y-axis ~ x-axis
   data = population,
   xlab = "POPULATION",
   ylab = "DEPARTMENTS",
