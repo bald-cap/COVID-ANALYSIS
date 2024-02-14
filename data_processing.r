@@ -1,7 +1,7 @@
 library(RMariaDB)
 #install.packages("rstudioapi") -> TO BE INSTALLED
 
-password <- rstudioapi::askForPassword("knuMANJwJYSM2Nd1")
+password <- rstudioapi::askForPassword("UT2J Password")
 connection <- dbConnect(
   drv = RMariaDB::MariaDB(),
   user = "michael-kofi.nyanyui",
@@ -19,7 +19,7 @@ print(table_list)
 
 #Recupere les noms des columns
 department_columns <- dbListFields(connection, "DEPARTMENTS")
-print("Voici lles colonnes de la table DEPARTMENTS: ", department_columns)
+print( department_columns)
 
 #Recupere les tuples da la table DEPARTMENTS
 department_data <- dbReadTable(connection, "DEPARTMENTS")
@@ -33,8 +33,6 @@ data_snippet <- dbGetQuery(
   WHERE Population > 300000"
 )
 print(data_snippet)
-
-dbClearResult(data_snippet)
 
 
 #Exo 2 Etape 2
@@ -78,3 +76,5 @@ new_boxplot <- boxplot(
   xlab = "DEPARTMENTS",
   main = "BOXPLOT DES POPULATIONS DES DEPARTMENTS"
 )
+
+dbDisconnect(connection)
