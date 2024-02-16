@@ -1,4 +1,4 @@
-library(RMariaDB) #install.packages("RMariaDB")
+library(RMariaDB)
 #install.packages("rstudioapi") -> TO BE INSTALLED
 
 password <- rstudioapi::askForPassword("UT2J Password")
@@ -10,7 +10,6 @@ connection <- dbConnect(
   host = "10.10.190.39",
   port = 3306
 )
-
 
 #Exo 1 Etape 2
 #Recupere les noms de tous les tables dans ma DB
@@ -78,8 +77,8 @@ new_boxplot <- boxplot(
 
 #Analyse les données des deux tables
 data_analysis <- by(
-  data = num_uni_department$NO_UNI_PAR_DEPARTMENT,
-  INDICES = num_uni_department$POPULATION,
+  INDICES = num_uni_department$NO_UNI_PAR_DEPARTMENT,
+  data = num_uni_department$POPULATION,
   FUN = mean
 )
 print(data_analysis)
