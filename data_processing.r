@@ -13,7 +13,7 @@ connection <- dbConnect(
 
 #Exo 1 Etape 2
 #Recupere les noms de tous les tables dans ma DB
-table_list <- dbListTables(connection)
+table_li- dbListTables(connection)
 print(table_list) #DEPARTMENTS, UNIVERSITIES
 
 #Recupere les noms des columns
@@ -68,10 +68,8 @@ population <- dbGetQuery(
 )
 
 new_boxplot <- boxplot(
-  POPULATION ~ NOM_DEP, # y-axis ~ x-axis
-  data = population,
+  num_uni_department$POPULATION,
   ylab = "POPULATION",
-  xlab = "DEPARTMENTS",
   main = "BOXPLOT DES POPULATIONS DES DEPARTMENTS"
 )
 
