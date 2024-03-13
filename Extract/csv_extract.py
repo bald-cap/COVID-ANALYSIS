@@ -22,5 +22,4 @@ tempDF.columns = ['DATE_TEMP', 'DEP_ID', 'DEPARTMENT', 'MIN_TEMP', 'MAX_TEMP', '
 for i, chunk in enumerate(range(0, tempDF.shape[0], chunkSize)):
     newTuples = tempDF.iloc[chunk : chunk + chunkSize]
 
-    # newTuples.to_csv(f"temp2021_chunk{i+1}.csv", index=False)
-    newTuples.to_sql('TEMPERATURES', con=connection, if_exists='append', index=False)
+    newTuples.to_csv(f"temp2021_chunk{i+1}.csv", index=False)
