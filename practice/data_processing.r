@@ -13,7 +13,7 @@ connection <- dbConnect(
 
 #Exo 1 Etape 2
 #Recupere les noms de tous les tables dans ma DB
-table_li- dbListTables(connection)
+table_list <- dbListTables(connection)
 print(table_list) #DEPARTMENTS, UNIVERSITIES
 
 #Recupere les noms des columns
