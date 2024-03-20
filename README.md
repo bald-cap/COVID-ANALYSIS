@@ -13,3 +13,7 @@
 --- TEMPERATURES TABLES IS MISSING D.O.Ms (Departements Outre Mer)
 
 --DATA REPEATS 96 times PER DAY -> TEMP OF ALL DEPARTMENTS EVERY DAY
+
+
+## TO-DO
+1. Create Views with the variables you want to study
