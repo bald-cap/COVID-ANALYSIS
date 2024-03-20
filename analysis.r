@@ -32,3 +32,33 @@ while (!dbHasCompleted(request)) {
 }
 
 dbClearResult(request)
+
+  # SELECT
+  #   DATE_HOSP AS 'DATES',
+  #   H.DEP_ID, D.nomD,
+  #   NUM_HOSP AS 'NUM OF HOSPITALISATIONS' ,
+  #   total AS 'POPULATION',
+  #   SEX
+  # FROM HOSPITALISATIONS H
+  # LEFT JOIN PROJET_POPU P
+  #   ON H.DEP_ID = P.codeD
+  # LEFT JOIN PROJET_DEP D
+  #   ON D.codeD = P.codeD
+  # WHERE SEX = 0
+
+
+# Paris,
+# Val-de-Marne,
+# Hauts-de-Seine,
+# Rhône, Nord,
+# Bouches-du-Rhône,
+# Seine-Saint-Denis,
+# Essonne-> Highest HOSPITALISATIONS
+  # ORDER BY NUM_HOSP DESC, total DESC LIMIT 1000;
+
+  
+# Nord,
+# Paris,
+# Bouches-du-Rhône,
+# Rhône -> Highest POPULATION
+  # ORDER BY total DESC, NUM_HOSP DESC LIMIT 1000;
