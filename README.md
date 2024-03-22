@@ -21,3 +21,25 @@
 
 ## TO-DO
 1. Create Views with the variables you want to study
+
+
+## To Ask
+
+
+<!-- # SELECT
+ 
+# Paris,
+# Val-de-Marne,
+# Hauts-de-Seine,
+# Rhône, Nord,
+# Bouches-du-Rhône,
+# Seine-Saint-Denis,
+# Essonne-> Highest HOSPITALISATIONS
+  # ORDER BY NUM_HOSP DESC, total DESC LIMIT 1000;
+
+  
+# Nord,
+# Paris,
+# Bouches-du-Rhône,
+# Rhône -> Highest POPULATION
+  # ORDER BY total DESC, NUM_HOSP DESC LIMIT 1000; -->

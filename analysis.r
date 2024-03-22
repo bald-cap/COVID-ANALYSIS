@@ -1,4 +1,5 @@
 library(RMariaDB)
+library(ggplot2) # Ensure ggplot2 is loaded
 
 password <- rstudioapi::askForPassword("UT2J Password")
 connection <- dbConnect(
@@ -10,55 +11,29 @@ connection <- dbConnect(
   port = 3306
 )
 
-request <- dbSendQuery(
-  connection,
-  "SELECT 
-    DATE_HOSP AS 'DATES',
-    H.DEP_ID, T.DEP_ID,
-    T.MEAN_TEMP, 
-    NUM_HOSP AS 'NUM OF HOSPITALISATIONS' ,
-    total AS 'POPULATION', 
-    SEX
-  FROM TEMPERATURES T
-  RIGHT JOIN HOSPITALISATIONS H
-  ON H.DEP_ID = T.DEP_ID AND H.DATE_HOSP = T.DATE_TEMP
-  LEFT JOIN PROJET_POPU P
-  ON H.DEP_ID = P.codeD
-  ORDER BY NUM_HOSP DESC, total DESC, SEX DESC LIMIT 1000;"
+hosp_data <- dbGetQuery(connection,
+"SELECT
+  DATE_HOSP AS 'DATES',
+  H.DEP_ID, D.nomD,
+  AVG(NUM_HOSP) AS 'AVG_HOSPITALISATIONS',
+  total AS 'POPULATION',
+  SEX
+FROM HOSPITALISATIONS H
+LEFT JOIN PROJET_POPU P ON H.DEP_ID = P.codeD
+LEFT JOIN PROJET_DEP D ON D.codeD = P.codeD
+WHERE SEX = 0
+GROUP BY H.DEP_ID, DATE_HOSP
+ORDER BY H.DEP_ID, DATE_HOSP;"
 )
 
-while (!dbHasCompleted(request)) {
-  mini <- dbFetch(request, n = 100)
-}
+hosp_data$DATES <- as.Date(
+  hosp_data$DATES,
+  format = "%Y-%m-%d"
+)
 
-dbClearResult(request)
-
-  # SELECT
-  #   DATE_HOSP AS 'DATES',
-  #   H.DEP_ID, D.nomD,
-  #   NUM_HOSP AS 'NUM OF HOSPITALISATIONS' ,
-  #   total AS 'POPULATION',
-  #   SEX
-  # FROM HOSPITALISATIONS H
-  # LEFT JOIN PROJET_POPU P
-  #   ON H.DEP_ID = P.codeD
-  # LEFT JOIN PROJET_DEP D
-  #   ON D.codeD = P.codeD
-  # WHERE SEX = 0
-
-
-# Paris,
-# Val-de-Marne,
-# Hauts-de-Seine,
-# Rhône, Nord,
-# Bouches-du-Rhône,
-# Seine-Saint-Denis,
-# Essonne-> Highest HOSPITALISATIONS
-  # ORDER BY NUM_HOSP DESC, total DESC LIMIT 1000;
-
-  
-# Nord,
-# Paris,
-# Bouches-du-Rhône,
-# Rhône -> Highest POPULATION
-  # ORDER BY total DESC, NUM_HOSP DESC LIMIT 1000;
+hosp_data$month <- format(hosp_data$DATES, "%Y-%m")
+monthly_aggregate <- aggregate(
+  AVG_HOSPITALISATIONS ~ month,
+  data = hosp_data,
+  FUN = mean
+)
