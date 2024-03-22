@@ -12,6 +12,13 @@
 --SEX(1) -> MEN
 --SEX(2) -> WOMEN
 
+--HOSPITALISATION RATES | STANDARD POP_SIZE (10,000)
+-- Summer (June, July, August) - (6, 7, 8) -> 2,5398
+-- Autumn (September, October, November) - (9, 10, 11) -> 5,0346
+-- Winter (December, January, February) - (12, 1, 2) -> 13,4959
+-- Spring (March, April, May) - (3, 4, 5) -> 3,7872
+
+CONCLUSION -> Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.
 
 ### TEMPERATURE TABLE
 --TABLE IS MISSING D.O.Ms (Departements Outre Mer)
@@ -20,16 +27,11 @@
 
 
 ## TO-DO
-1. Caculate The Hospitalisation rates per the season
-FORMULA : (NUM_HOSP/POPU) * STANDARD POP_SIZE (10,000)
--- Summer (
--- Autumn
--- Winter
--- Spring
+
 
 2. Monthly AVG_HOSP per Department to find out the Department with the MOST HOSPITALISATIONS
 
-TRUE? ~>
+TRUE? ~> FALSE
 <!-- # SELECT
  
 # Paris,
