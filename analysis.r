@@ -37,3 +37,13 @@ monthly_aggregate <- aggregate(
   data = hosp_data,
   FUN = mean
 )
+
+# barplot(
+#   height = monthly_aggregate$AVG_HOSPITALISATIONS,
+#   names.arg = monthly_aggregate$month,
+#   las = 2, # Makes the month labels vertical
+#   main = "Average Hospitalisations Per Month",
+#   xlab = "Month",
+#   ylab = "Average Hospitalisations",
+#   col = "blue"
+# )
