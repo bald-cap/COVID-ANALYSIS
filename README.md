@@ -13,10 +13,13 @@
 --SEX(2) -> WOMEN
 
 --HOSPITALISATION RATES | STANDARD POP_SIZE (10,000)
--- Summer (June, July, August) - (6, 7, 8) -> 2,5398
--- Autumn (September, October, November) - (9, 10, 11) -> 5,0346
--- Winter (December, January, February) - (12, 1, 2) -> 13,4959
--- Spring (March, April, May) - (3, 4, 5) -> 3,7872
+-- Summer (June, July, August) - (6, 7, 8)
+
+-- Autumn (September, October, November) - (9, 10, 11)
+
+-- Winter (December, January, February) - (12, 1, 2)
+
+-- Spring (March, April, May) - (3, 4, 5)
 
 CONCLUSION -> Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.
 
