@@ -13,6 +13,7 @@
 --SEX(2) -> WOMEN
 
 --HOSPITALISATION RATES | STANDARD POP_SIZE (10,000)
+
 -- Summer (June, July, August) - (6, 7, 8)
 
 -- Autumn (September, October, November) - (9, 10, 11)
