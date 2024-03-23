@@ -11,6 +11,36 @@ connection <- dbConnect(
   port = 3306
 )
 
+# CORRELATION COEFFICIENT BETWEEN  TEMPERATURES AND HOSPITALISATIONS
+temps_hosp_data <- dbSendQuery(
+  connection,
+  "SELECT MEAN_TEMP, NUM_HOSP
+  FROM TEMPERATURES T
+  RIGHT JOIN HOSPITALISATIONS H
+      ON H.DEP_ID = T.DEP_ID AND H.DATE_HOSP = T.DATE_TEMP
+  WHERE SEX = 0 AND T.DEP_ID IS NOT NULL AND H.DATE_HOSP IS NOT NULL
+  GROUP BY DATE_TEMP
+  ORDER BY DATE_TEMP ASC"
+)
+
+cor_hosp_temp <- cor(
+  temps_hosp_data$MEAN_TEMP,
+  temps_hosp_data$NUM_HOSP
+)
+
+plot(
+  temps_hosp_data$MEAN_TEMP,
+  temps_hosp_data$NUM_HOSP,
+  main = "SCATTER PLOT OF TEMP VS HOSPITALISATION",
+  xlab = "AVERAGE TEMPERAUTRES",
+  ylab = "HOSPITALISATIONS",
+  pch = 20
+)
+
+model <- lm(temps_hosp_data$MEAN_TEMP ~ temps_hosp_data$NUM_HOSP)
+ablin(model, col = "#068488")
+
+
 hosp_data <- dbGetQuery(connection,
   "SELECT
     DATE_HOSP AS 'DATES',

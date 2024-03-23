@@ -56,6 +56,7 @@ COLUMNS : T.DATE_TEMP, AVG(T.MEAN_TEMP) AS AVG_MEAN_TEMP, AVG(H.NUM_HOSP) AS AVG
 
 <!-- TO BE DONE IN R -->
 <!-- cor(x,y) -->
--- use cor(AVG_MEAN_TEMP, AVG_NUM_HOSP) 
+-- use cor(AVG_MEAN_TEMP, AVG_NUM_HOSP)
+<p><i> Awaiting conclusion of diagram </i></p>
 
 ## To Ask
