@@ -18,7 +18,7 @@
 - Winter (December, January, February) - (12, 1, 2)<br>
 - Spring (March, April, May) - (3, 4, 5)
 
-<strong>CONCLUSION</strong> -> <i style= "color :#aca9bb;">Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.<i><br>
+<strong>CONCLUSION</strong> -> <i style= "color :#aca9bb;">Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.</i><br>
 
 - PARIS Had the most HOSPITALISATIONS<br>
 - THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
