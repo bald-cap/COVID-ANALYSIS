@@ -44,7 +44,7 @@
 
 ## To Ask
 1. Best Graph for CDD/HDD Index representation over the 4 years
-- https://youtu.be/4zV-ZyQHl7s?si=P3MdPMkCBp13KGIS
+<i>https://youtu.be/4zV-ZyQHl7s?si=P3MdPMkCBp13KGIS</i>
 
 2. More analysis to do on Hospitalisation itself
 
