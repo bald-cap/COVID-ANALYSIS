@@ -37,6 +37,7 @@
 
 ### DONE BUT NOT PLOTTED
 - Relate Data to COVID
+
 - Correlation Coefficient between TEMP and HOSP
 
 - CDD/HDD over the 4 years
