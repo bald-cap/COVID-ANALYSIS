@@ -42,4 +42,8 @@ COLUMNS : T.DATE_TEMP, AVG(T.MEAN_TEMP) AS AVG_MEAN_TEMP, AVG(H.NUM_HOSP) AS AVG
 
 
 ## To Ask
-1. Best Graph for CDD/HDD Index representation over the 4 years
+1. Best Graph for CDD/HDD Index representation over the 4 years<br>
+https://youtu.be/4zV-ZyQHl7s?si=P3MdPMkCBp13KGIS
+
+2. More analysis to do on Hospitalisation itself
+
