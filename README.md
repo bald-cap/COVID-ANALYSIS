@@ -18,7 +18,10 @@
 -- Winter (December, January, February) - (12, 1, 2)<br>
 -- Spring (March, April, May) - (3, 4, 5)
 
-CONCLUSION -> Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.
+CONCLUSION -> Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.<br>
+
+--PARIS Had the most HOSPITALISATIONS<br>
+--THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
 
 ### TEMPERATURE TABLE
 --TABLE IS MISSING D.O.Ms (Departements Outre Mer)
@@ -27,35 +30,16 @@ CONCLUSION -> Highest rate of Hospitalisations were recorded in Winter and worst
 
 
 ## TO-DO
-
-
-2. Monthly AVG_HOSP per Department to find out the Department with the MOST HOSPITALISATIONS
-
-TRUE? ~> FALSE
-<!-- # SELECT
- 
-# Paris,
-# Val-de-Marne,
-# Hauts-de-Seine,
-# Rhône, Nord,
-# Bouches-du-Rhône,
-# Seine-Saint-Denis,
-# Essonne-> Highest HOSPITALISATIONS
-  # ORDER BY NUM_HOSP DESC, total DESC LIMIT 1000;
-
-  
-# Nord,
-# Paris,
-# Bouches-du-Rhône,
-# Rhône -> Highest POPULATION
-  # ORDER BY total DESC, NUM_HOSP DESC LIMIT 1000; -->
-
-
-3. Calculate find out the Correlation Coefficient between the Hospitalisations and Temperatures (-1 : 1)<br>
+1. Calculate find out the Correlation Coefficient between the Hospitalisations and Temperatures (-1 : 1)<br>
 COLUMNS : T.DATE_TEMP, AVG(T.MEAN_TEMP) AS AVG_MEAN_TEMP, AVG(H.NUM_HOSP) AS AVG_NUM_HOSP
 
 <!-- TO BE DONE IN R -->
 <!-- cor(x,y) -->
 -- use cor(AVG_MEAN_TEMP, AVG_NUM_HOSP) 
 
+
+2. Find the CDD/HDD Index over the 4 years to see if cooling/heating demands rose/fell
+
+
 ## To Ask
+1.Beat Graph for CDD/HDD Index representation over the 4 years
