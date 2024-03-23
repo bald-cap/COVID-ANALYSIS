@@ -1,5 +1,4 @@
 library(RMariaDB)
-library(ggplot2) # Ensure ggplot2 is loaded
 
 password <- rstudioapi::askForPassword("UT2J Password")
 connection <- dbConnect(
@@ -11,29 +10,31 @@ connection <- dbConnect(
   port = 3306
 )
 
-# CORRELATION COEFFICIENT BETWEEN  TEMPERATURES AND HOSPITALISATIONS
-temps_hosp_data <- dbSendQuery(
+# CORRELATION COEFFICIENT BETWEEN  TEMPERATURES AND HOSPITALISATION RATES
+temps_hosp_data <- dbGetQuery(
   connection,
-  "SELECT MEAN_TEMP, NUM_HOSP
+  "SELECT MEAN_TEMP, ((NUM_HOSP/total) * 10000) AS HOSP_RATE_10K
   FROM TEMPERATURES T
   RIGHT JOIN HOSPITALISATIONS H
       ON H.DEP_ID = T.DEP_ID AND H.DATE_HOSP = T.DATE_TEMP
+  INNER JOIN PROJET_POPU P
+      ON P.codeD = H.DEP_ID
   WHERE SEX = 0 AND T.DEP_ID IS NOT NULL AND H.DATE_HOSP IS NOT NULL
   GROUP BY DATE_TEMP
-  ORDER BY DATE_TEMP ASC"
+  ORDER BY HOSP_RATE_10K DESC, MEAN_TEMP DESC"
 )
 
 cor_hosp_temp <- cor(
   temps_hosp_data$MEAN_TEMP,
-  temps_hosp_data$NUM_HOSP
+  temps_hosp_data$HOSP_RATE_10K
 )
 
 plot(
   temps_hosp_data$MEAN_TEMP,
-  temps_hosp_data$NUM_HOSP,
+  temps_hosp_data$HOSP_RATE_10K,
   main = "SCATTER PLOT OF TEMP VS HOSPITALISATION",
   xlab = "AVERAGE TEMPERAUTRES",
-  ylab = "HOSPITALISATIONS",
+  ylab = "HOSPITALISATION RATE PER 10K",
   pch = 20
 )
 
@@ -68,7 +69,7 @@ ORDER BY YEARS ASC
 
 cdd_hdd_data <- dbGetQuery(connection, cdd_hdd_query)
 
-cdd_data$YEARS <- as.factor(cdd_data$YEARS)
+cdd_hdd_data$YEARS <- as.factor(cdd_hdd_data$YEARS)
 
 plot(cdd_data$YEARS, cdd_data$`CDD INDEX`,
   type = "b",
