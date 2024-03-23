@@ -36,6 +36,7 @@
 1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH
 
 ### DONE BUT NOT PLOTTED
+- Relate Data to COVID
 - Correlation Coefficient between TEMP and HOSP
 
 - CDD/HDD over the 4 years
