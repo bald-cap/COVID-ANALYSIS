@@ -5,28 +5,28 @@
  ## OBSERVATIONS
 
  ### HOSPITALISATION TABLE
- --DATE_HOSP DOES NOT REPEEAT -> POSSIBLE PRIMARY KEY/ FOREIGN KEY | FALSE
+ 1. DATE_HOSP DOES NOT REPEEAT -> POSSIBLE PRIMARY KEY/ FOREIGN KEY | FALSE
  
---DATA REPEATS 305 times PER DAY -> THREE TUPLES PER DEPARTMENT EVERYDAY<br>
---SEX(0) -> MEN + WOMEN<br>
---SEX(1) -> MEN<br>
---SEX(2) -> WOMEN<br>
+2. DATA REPEATS 305 times PER DAY -> THREE TUPLES PER DEPARTMENT EVERYDAY<br>
+- SEX(0) -> MEN + WOMEN<br>
+- SEX(1) -> MEN<br>
+- SEX(2) -> WOMEN<br>
 
---HOSPITALISATION RATES | STANDARD POP_SIZE (10,000)<br>
--- Summer (June, July, August) - (6, 7, 8)<br>
--- Autumn (September, October, November) - (9, 10, 11)<br>
--- Winter (December, January, February) - (12, 1, 2)<br>
--- Spring (March, April, May) - (3, 4, 5)
+3. HOSPITALISATION RATES | STANDARD POP_SIZE (10,000)<br>
+- Summer (June, July, August) - (6, 7, 8)<br>
+- Autumn (September, October, November) - (9, 10, 11)<br>
+- Winter (December, January, February) - (12, 1, 2)<br>
+- Spring (March, April, May) - (3, 4, 5)
 
-CONCLUSION -> Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.<br>
+<str>CONCLUSION</str> -> <i style= "color :#aca9bb;">Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.<i><br>
 
---PARIS Had the most HOSPITALISATIONS<br>
---THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
+- PARIS Had the most HOSPITALISATIONS<br>
+- THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
 
 ### TEMPERATURE TABLE
---TABLE IS MISSING D.O.Ms (Departements Outre Mer)
+1. TABLE IS MISSING D.O.Ms (Departements Outre Mer)
 
---DATA REPEATS 96 times PER DAY -> TEMP OF ALL DEPARTMENTS EVERY DAY
+2. DATA REPEATS 96 times PER DAY -> TEMP OF ALL DEPARTMENTS EVERY DAY
 
 
 ## TO-DO
