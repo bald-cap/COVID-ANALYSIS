@@ -40,12 +40,49 @@ plot(
 model <- lm(temps_hosp_data$MEAN_TEMP ~ temps_hosp_data$NUM_HOSP)
 ablin(model, col = "#068488")
 
+#CDD/HDD INDEX GRAPH
+cdd_hdd_query <- "
+WITH HEATING_DAYS AS(
+    SELECT (18 - MEAN_TEMP) AS HDD_V, DATE_TEMP
+    FROM TEMPERATURES
+    WHERE MEAN_TEMP < 18
+), COOLING_DAYS AS(
+    SELECT (MEAN_TEMP - 18) AS CDD_V, DATE_TEMP
+    FROM TEMPERATURES
+    WHERE MEAN_TEMP > 18
+) 
 
+SELECT
+    YEAR(T.DATE_TEMP) AS YEARS,
+    (SUM(CD.CDD_V)/SUM(HD.HDD_V)) AS `CDD/HDD INDEX`
+FROM TEMPERATURES T
+LEFT JOIN HEATING_DAYS HD
+    ON T.DATE_TEMP = HD.DATE_TEMP
+LEFT JOIN COOLING_DAYS CD
+    ON CD.DATE_TEMP = T.DATE_TEMP
+GROUP BY YEARS
+ORDER BY YEARS ASC
+"
+
+cdd_hdd_data <- dbGetQuery(connection, cdd_hdd_query)
+
+cdd_data$YEARS <- as.factor(cdd_data$YEARS)
+
+plot(cdd_data$YEARS, cdd_data$`CDD INDEX`,
+  type = "b",
+  pch = 19,
+  lty = 1,
+  xlab = "Year",
+  ylab = "CDD Index",
+  main = "CDD Index Over Years"
+)
+
+#WHICH MONTHS HAVE THE MOST HOSPITALISATIONS | TO BE TESTED
 hosp_data <- dbGetQuery(connection,
   "SELECT
     DATE_HOSP AS 'DATES',
     H.DEP_ID, D.nomD,
-    AVG(NUM_HOSP) AS 'AVG_HOSPITALISATIONS',
+    AVG(NUM_HOSP) AS 'AVG_HOSP',
     total AS 'POPULATION',
     SEX
   FROM HOSPITALISATIONS H
@@ -62,18 +99,18 @@ hosp_data$DATES <- as.Date(
 )
 
 hosp_data$month <- format(hosp_data$DATES, "%Y-%m")
-monthly_aggregate <- aggregate(
-  AVG_HOSPITALISATIONS ~ month,
+monthly_agg <- aggregate(
+  AVG_HOSP ~ month,
   data = hosp_data,
   FUN = mean
 )
 
-# barplot(
-#   height = monthly_aggregate$AVG_HOSPITALISATIONS,
-#   names.arg = monthly_aggregate$month,
-#   las = 2, # Makes the month labels vertical
-#   main = "Average Hospitalisations Per Month",
-#   xlab = "Month",
-#   ylab = "Average Hospitalisations",
-#   col = "blue"
-# )
+barplot(
+  height = monthly_agg$AVG_HOSP,
+  names.arg = monthly_agg$month,
+  las = 2,
+  main = "Average Hospitalisations Per Month",
+  xlab = "Month",
+  ylab = "Average Hospitalisations",
+  col = "blue"
+)

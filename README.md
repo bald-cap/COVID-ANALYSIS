@@ -18,7 +18,7 @@
 - Winter (December, January, February) - (12, 1, 2)
 - Spring (March, April, May) - (3, 4, 5)
 
-<strong>CONCLUSION</strong> -> <i style= "color :#aca9bb;">Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.</i><br>
+<strong>CONCLUSION</strong> -> <i >Highest rate of Hospitalisations were recorded in Winter and worst were recorded in the Summer.</i><br>
 
 - PARIS Had the most HOSPITALISATIONS
 - THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
@@ -30,21 +30,12 @@
 
 
 ## TO-DO
-1. Calculate find out the Correlation Coefficient between the Hospitalisations and Temperatures (-1 : 1)
-- COLUMNS : T.DATE_TEMP, AVG(T.MEAN_TEMP) AS AVG_MEAN_TEMP, AVG(H.NUM_HOSP) AS AVG_NUM_HOSP
+1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH
 
-<!-- TO BE DONE IN R -->
-<!-- cor(x,y) -->
-- use cor(AVG_MEAN_TEMP, AVG_NUM_HOSP)
-<p><i> Awaiting conclusion of diagram </i></p>
+### DONE BUT NOT PLOTTED
+- Correlation Coefficient between TEMP and HOSP
 
-
-2. Find the CDD/HDD Index over the 4 years to see if cooling/heating demands rose/fell
-
+- CDD/HDD over the 4 years
 
 ## To Ask
-1. Best Graph for CDD/HDD Index representation over the 4 years
-<i>https://youtu.be/4zV-ZyQHl7s?si=P3MdPMkCBp13KGIS</i>
-
-2. More analysis to do on Hospitalisation itself
-
+1. More analysis to do on Hospitalisation itself
