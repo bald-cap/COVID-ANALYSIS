@@ -117,7 +117,7 @@ legend(
 Un coefficient de corrélation de 0.55 indique une relation linéaire positive modérée entre le nombre de cas en soins intensifs et le nombre de décès. Cela suggère que, bien qu'il existe une association entre ces variables, d'autres facteurs influencent également les taux de mortalité dans les données d'hospitalisations.
 
 
-### TAUX D' HOSPITALISATIONS EN FONCTIONS PAR SAISONS
+### TAUX D'HOSPITALISATIONS PAR SAISON
 On aimerais étudier le taux d'hospitalisations en fonctions de saisons
 
 ```{r TAUX D'HOSPITALISATION PAR SAISON}
