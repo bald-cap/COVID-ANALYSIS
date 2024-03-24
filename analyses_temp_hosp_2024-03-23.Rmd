@@ -1,5 +1,5 @@
 ---
-title: "TEMP_HOSP_ANALYSIS"
+title: "COVID_TEMP_HOSP_ANALYSIS"
 author: "
   Michael NYANYUIE,
   Divine IZERE
@@ -104,7 +104,7 @@ plot(
   pch = 20
 )
 ```
-J'ai utilisé 10 000 habitants comme référence pour standardiser le taux d'hospitalisation. Selon le calcul du coefficient de corrélation, qui est de 0.7, il existe une relation positive significative entre la température et le taux d'hospitalisation. Cela suggère que les taux d'hospitalisation tendent à augmenter avec l'augmentation des températures. Cette relation peut indiquer des défis supplémentaires pour les systèmes de santé pendant les périodes plus chaudes. 
+J'ai utilisé 10 000 habitants comme référence pour standardiser le taux d'hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.7, il existe une relation positive significative entre la température et le taux d'hospitalisation. Cela suggère que les taux d'hospitalisation tendent à augmenter avec la chute des températures. Cette relation peut indiquer des défis supplémentaires pour les systèmes de santé pendant les périodes plus froides. 
 
 
 ## Indice CDD/HDD
@@ -148,4 +148,4 @@ plot(cdd_data$YEARS, cdd_data$`CDD INDEX`,
 )
 
 ```
-Cela est soutenu par ce graphique qui étudie l'indice CDD/HDD de 2018 à 2021. On remarque que les bâtiments avaient davantage besoin de chauffage entre 2018 et 2020, mais les indices CDD et HDD se rapprochent en 2021. 
+L'indice CDD/HDD de 2018 à 2021 soutien la conclusion de la coefficient de correlation entre les temperatures et les hospitalisations. On remarque que les bâtiments avaient davantage besoin de chauffage entre 2018 et 2020, mais les indices CDD et HDD se rapprochent en 2021. Est qu'on prut conclure que les cas de covid on décrémenté avec les années?
