@@ -93,7 +93,6 @@ On remarque alors un fort taux d'hospitalisation en Hiver et les saisons plus fr
 
 ## COEFFICIENT DE CORRELATION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
 
-You can also embed plots, for example:
 
 ```{r GRAPH DE OEFFICIENT DE CORRELATION (TEMP vs TAUX HOSP) pressure, echo=FALSE}
 temps_hosp_data <- dbSendQuery(
