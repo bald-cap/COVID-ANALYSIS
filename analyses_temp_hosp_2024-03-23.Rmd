@@ -155,15 +155,15 @@ ORDER BY YEARS ASC
 
 cdd_hdd_data <- dbGetQuery(connection, cdd_hdd_query)
 
-cdd_data$YEARS <- as.factor(cdd_data$YEARS)
+cdd_hdd_data$YEARS <- as.factor(cdd_hdd_data$YEARS)
 
-plot(cdd_data$YEARS, cdd_data$`CDD INDEX`,
+plot(cdd_data$YEARS, cdd_hdd_data$`CDD/HDD INDEX`,
   type = "b",
   pch = 19,
   lty = 1,
   xlab = "Year",
-  ylab = "CDD Index",
-  main = "CDD Index Over Years"
+  ylab = "CDD/HDD Index",
+  main = "CDD/HDD Index Over Years"
 )
 
 ```
