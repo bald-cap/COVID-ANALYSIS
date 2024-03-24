@@ -15,7 +15,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r load-data}
+library(RMariaDB)
 
+password <- rstudioapi::askForPassword("UT2J Password")
+connection <- dbConnect(
+  drv = RMariaDB::MariaDB(),
+  user = "michael-kofi.nyanyui",
+  password = password,
+  dbname = "23_2L2_michael_kofi_nyanyuie",
+  host = "10.10.190.39",
+  port = 3306
+)
 ```
 
 ## CREATION DE BASE DE DONNEE.
