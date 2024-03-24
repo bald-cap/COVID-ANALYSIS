@@ -14,6 +14,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Introduction
+------------
+
+Cette analyse vise à explorer la relation entre les variations de température et les taux d'hospitalisation pendant les années fortement impactées par la pandémie de COVID-19, 2019 et 2020. Bien que les données directes sur les infections par la COVID-19 ne soient pas disponibles dans notre ensemble de données, nous examinons si les facteurs environnementaux, tels que la température, tels qu'enregistrés dans notre base de données `TEMPERATURES`, pourraient corrélérer avec les changements dans les modèles d'hospitalisation observés dans la table `HOSPITALISATIONS`.
+
 ```{r access a la base de données}
 library(RMariaDB)
 
