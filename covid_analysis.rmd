@@ -92,8 +92,6 @@ We then notice a high rate of hospitalisation in Winter and colder seasons than 
 
 ## CORRELATION COEFFICIENT BETWEEN TEMPERATURE AND HOSPITALISATION RATES
 
-You can also embed plots, for example:
-
 ```{r CORRELATION GRAPH (TEMP vs HOSP RATE), echo=FALSE}
 temps_hosp_data <- dbSendQuery(
   connection,
