@@ -86,7 +86,7 @@ connection <- dbConnect(
 ## ETUDE DE VARIABLE HOSPITALISATION
 ------------------------------------
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
-On aimerais etudier la correlation entre le taux de cas intense et le taux de morts.
+On aimerais etudier le lien entre le taux de cas intense et le taux de morts.
 
 ```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
 intense_case_deaths_data <- dbSendQuery(
@@ -160,52 +160,88 @@ hosp_rate_10K <- dbGetQuery(
 
 print(hosp_rate_10K)
 ```
-On remarque alors un fort taux d'hospitalisation en Hiver(2.364) et les saisons plus froides qu'en Été(0.660).
+On remarque alors un fort taux d'hospitalisation en Hiver(2.364) et les saisons plus froides qu'en Été(0.660) de 2018 à 2021.
 
 
-### ETUDE D'HOSPITALISATIONS PENDANT LA PENDAMIE (2019-2020) ET HORS PERIODE COVID (2018-2021)
+### ETUDE D'HOSPITALISATIONS PENDANT LA PANDEMIE (2019-2020) ET HORS PERIODE COVID (2018-2021)
 
 ```{r GRAPHE COMPARAISON DES HOSPITALISATIONS 2019-2020 ET 2018-2021}
-hosp_rate_10K_hors_covid <- dbGetQuery(
+hosp_rate_10K_covid_horscovid <- dbGetQuery(
   connection,
-  "SELECT
-    AVG((NUM_HOSP/ total) * 10000) AS HOSP_RATE,
-    CASE
-      WHEN MONTH(DATE_HOSP) IN (12, 1, 2) THEN 'Winter'
-      WHEN MONTH(DATE_HOSP) IN (3, 4, 5) THEN 'Spring'
-      WHEN MONTH(DATE_HOSP) IN (6, 7, 8) THEN 'Summer'
-      WHEN MONTH(DATE_HOSP) IN (9, 10, 11) THEN 'Autumn'
-    END AS 'SEASONS'
-  FROM HOSPITALISATIONS H
-  INNER JOIN PROJET_POPU P
+  "WITH COVID_PERIOD AS(
+    SELECT
+        AVG((NUM_HOSP/ total) * 10000) AS HOSP_RATE_IN_COVID,
+        CASE
+        WHEN MONTH(DATE_HOSP) IN (12, 1, 2) THEN 'Winter'
+        WHEN MONTH(DATE_HOSP) IN (3, 4, 5) THEN 'Spring'
+        WHEN MONTH(DATE_HOSP) IN (6, 7, 8) THEN 'Summer'
+        WHEN MONTH(DATE_HOSP) IN (9, 10, 11) THEN 'Autumn'
+        END AS 'SEASONS'
+    FROM HOSPITALISATIONS H
+    INNER JOIN PROJET_POPU P
     ON H.DEP_ID = P.codeD
-  WHERE DATE_HOSP LIKE '2020-%'' OR DATE_HOSP LIKE '2019-%'
-  GROUP BY SEASONS
-  ORDER BY HOSP_RATE DESC;
-"
+    WHERE DATE_HOSP LIKE '2020-%' OR DATE_HOSP LIKE '2019-%'
+    GROUP BY SEASONS
+  ), OUTSIDE_COVID AS(
+    SELECT
+        AVG((NUM_HOSP/ total) * 10000) AS HOSP_RATE_OUTSIDE_COVID,
+        CASE
+        WHEN MONTH(DATE_HOSP) IN (12, 1, 2) THEN 'Winter'
+        WHEN MONTH(DATE_HOSP) IN (3, 4, 5) THEN 'Spring'
+        WHEN MONTH(DATE_HOSP) IN (6, 7, 8) THEN 'Summer'
+        WHEN MONTH(DATE_HOSP) IN (9, 10, 11) THEN 'Autumn'
+        END AS 'SEASONS'
+    FROM HOSPITALISATIONS H
+    INNER JOIN PROJET_POPU P
+    ON H.DEP_ID = P.codeD
+    WHERE DATE_HOSP LIKE '2018-%' OR DATE_HOSP LIKE '2021-%'
+    GROUP BY SEASONS
+  )
+  SELECT HOSP_RATE_IN_COVID, HOSP_RATE_OUTSIDE_COVID, CP.SEASONS
+  FROM COVID_PERIOD CP
+  INNER JOIN OUTSIDE_COVID OC
+  ON CP.SEASONS = OC.SEASONS
+  ORDER BY HOSP_RATE_IN_COVID DESC, HOSP_RATE_OUTSIDE_COVID DESC"
 )
 
-hosp_rate_10K_covid <- dbGetQuery(
-  connection,
-  "SELECT
-    AVG((NUM_HOSP/ total) * 10000) AS HOSP_RATE,
-    CASE
-      WHEN MONTH(DATE_HOSP) IN (12, 1, 2) THEN 'Winter'
-      WHEN MONTH(DATE_HOSP) IN (3, 4, 5) THEN 'Spring'
-      WHEN MONTH(DATE_HOSP) IN (6, 7, 8) THEN 'Summer'
-      WHEN MONTH(DATE_HOSP) IN (9, 10, 11) THEN 'Autumn'
-    END AS 'SEASONS'
-  FROM HOSPITALISATIONS H
-  INNER JOIN PROJET_POPU P
-    ON H.DEP_ID = P.codeD
-  WHERE DATE_HOSP LIKE '2018-%' OR DATE_HOSP LIKE '2021-%'
-  GROUP BY SEASONS
-  ORDER BY HOSP_RATE DESC;"
+par(mar = c(5, 8, 4, 2) + 0.3)
+
+positions_in_covid <- seq_along(hosp_rate_10K_covid_horscovid$SEASONS)
+positions_outside_covid <- positions_in_covid + 0.3
+
+barplot(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
+  names.arg = hosp_rate_10K_covid_horscovid$SEASONS,
+  beside = TRUE,
+  col = "blue",
+  xlim = c(0, max(positions_outside_covid) + 1),
+  ylim = c(0, max(
+    c(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
+      hosp_rate_10K_covid_horscovid$HOSP_RATE_OUTSIDE_COVID)
+  ) * 1.2),
+  xlab = "Seasons",
+  ylab = "Hospitalization Rate per 10K",
+  main = "Comparison of Hospitalization Rates During and Outside COVID Period by Season",
+  cex.names = 0.8,
+  las = 2,
+  space = c(0, 0.5)
 )
 
+barplot(hosp_rate_10K_covid_horscovid$HOSP_RATE_OUTSIDE_COVID,
+  beside = TRUE,
+  col = "red",
+  add = TRUE,
+  space = c(4, 0.5),
+  positions = positions_outside_covid
+)
+
+legend("topright",
+  legend = c("During COVID", "Outside COVID"),
+  fill = c("blue", "red"),
+  cex = 0.8
+)
 
 ```
-
+D'apres les taux rélévés de cet examen, il est observé que le printemps a connu le taux le plus élevé d'hospitalisations avec un taux moyen de 2,393 pour 10 000 individus, tandis que l'automne a présenté le taux le plus bas à 0,653 pour 10 000. Cette distribution saisonnière contraste avec l'analyse plus large sur quatre ans, où l'hiver a montré le taux global d'hospitalisation le plus élevé à 2,646 pour 10 000, et l'été a montré le plus bas à 0,519 pour 10 000. Cette divergence suggère un impact saisonnier distinct sur les taux d'hospitalisation spécifiquement attribuable à la pandémie de COVID-19, divergeant de la tendance générale observée sur la période de quatre ans.
 
 ## ETUDE DE VARIABLE TEMPERATURE
 --------------------------------
@@ -287,6 +323,13 @@ plot(
 ```
 J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d’hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.21, il existe une faible relation négative entre la température et le taux d’hospitalisation. Cela suggère une légère tendance à la baisse des hospitalisations avec l’augmentation des températures. Toutefois, cette relation est faible et indique que d’autres facteurs pourraient jouer un rôle plus significatif dans les taux d’hospitalisation. Cette analyse met en lumière la complexité des facteurs affectant les hospitalisations.
 
+
+### ANALYSE DE REGRESSION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
+Nous cherchons à comprendre et à prédire l'influence de la température sur le taux d'hospitalisations. À travers une analyse de régression, nous établirons un modèle mathématique qui nous permettra de déterminer si des variations de température peuvent être associées à une augmentation ou une diminution du nombre d'hospitalisations.
+
+```{r REGRESSION LINEAIRE ENTRE LA TEMPERATURE ET LE T'AUX D'HOSPITALISATIONS}
+
+```
 
 
 # CONCLUSION

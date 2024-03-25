@@ -18,10 +18,13 @@
 - Winter (December, January, February) - (12, 1, 2)
 - Spring (March, April, May) - (3, 4, 5)
 
-- <strong>CONCLUSION</strong> -> <i>Highest rate of Hospitalisations were recorded in Winter and least were recorded in the Summer.</i>
+- <strong>CONCLUSION</strong> -> <i>Highest rate of Hospitalisations were recorded in Winter(2.364) and least were recorded in the Summer(0.660) over the 4 years.</i>
 
 - PARIS Had the most HOSPITALISATIONS
 - THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
+
+4. OUTSIDE THE COVID PERIOD -> MORE CASES WERE RECORDED IN SPRING(2.393) AND THE LEAST IN AUTUMN(0.653)
+- DURING THE COVID PERIOD -> MORE CASES WERE RECORDED IN WINTER(2.393) AND THE LEAST IN SUMMER(0.519)
 
 ### TEMPERATURE TABLE
 1. TABLE IS MISSING D.O.Ms (Departements Outre Mer)
@@ -31,18 +34,18 @@
 3. IN GENERAL THERE WAS A GREAT NEED FOR HEATING THAN THERE WAS FOR COOLING PER THE CDD/HDD INDEXES (CDDs in each year was far greater than their respective HDDs)
 - Except in 2021 where they both get closer
 
-
 ## TO-DO
 1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH
 
-### DONE BUT NOT PLOTTED
-- Relate Data to COVID
+2. Calculate the linear regression between temperature and hospitalisation
 
+### DONE BUT NOT PLOTTED
 - Correlation Coefficient between TEMP and HOSP
 
 - CDD/HDD over the 4 years
 
 - Calculate CDD/HDD in the Winter period to support your Correlation Coefficient analysis
 
+
+
 ## To Ask
-1. More analysis to do on Hospitalisation itself
