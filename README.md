@@ -42,5 +42,7 @@
 
 - CDD/HDD over the 4 years
 
+- Calculate CDD/HDD in the Winter period to support your Correlation Coefficient analysis
+
 ## To Ask
 1. More analysis to do on Hospitalisation itself
