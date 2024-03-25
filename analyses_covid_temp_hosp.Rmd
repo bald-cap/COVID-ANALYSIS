@@ -14,6 +14,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 # INTRODUCTION
 ---------------
 Cette analyse se penche sur la relation complexe entre les données d’hospitalisation et les variations de température durant la pandémie de COVID-19, couvrant les années 2019 à 2020, avec une perspective comparative des années 2018 et 2021. Elle vise à éclairer sur la manière dont les facteurs environnementaux pourraient corréler avec les tendances de santé publique au cours de l’une des crises sanitaires mondiales les plus difficiles de l’histoire récente.
@@ -81,6 +82,7 @@ connection <- dbConnect(
 #   FOREIGN KEY (DEP_ID) REFERENCES PROJET_DEP (codeD)
 # );
 ```
+
 ## ETUDE DE VARIABLE HOSPITALISATION
 ------------------------------------
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
