@@ -14,11 +14,23 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Introduction
-------------
+# INTRODUCTION
 
-Dans le cadre de notre investigation, nous nous penchons sur une analyse approfondie des données d'hospitalisation au cours de la période marquée par la pandémie de COVID-19, s'étalant sur les années 2019 et 2020, tout en intégrant 2018 et 2021 comme jalons temporels pour une perspective élargie pré et post-pandémique. L'objectif initial est d'analyser les taux d'hospitalisation pour en dégager des tendances et identifier les moments clés ou les fluctuations notables. Par la suite, notre attention se tourne vers les impacts potentiels des variations de température sur ces taux d'hospitalisation, cherchant à décrypter l'influence des conditions climatiques sur la dynamique de la santé publique durant cette crise sanitaire. En culmination, nous orchestrons une analyse bivariée, conjuguant températures et données hospitalières, pour explorer l'existence d'une corrélation entre ces deux variables. Cette démarche méthodologique repose sur l'application de techniques statistiques avancées, telles que le coefficient de corrélation de Pearson et l'analyse de séries temporelles, appuyées par des représentations graphiques, afin de synthétiser et d'interpréter nos découvertes avec précision. Notre étude aspire à révéler des insights significatifs sur l'interaction entre l'environnement et la santé au cours d'une période critique, enrichissant ainsi notre compréhension des facteurs influençant les taux d'hospitalisation en contexte pandémique.
-```{r access a la base de données}
+Cette analyse se penche sur la relation complexe entre les données d’hospitalisation et les variations de température durant la pandémie de COVID-19, couvrant les années 2019 à 2020, avec une perspective comparative des années 2018 et 2021. Elle vise à éclairer sur la manière dont les facteurs environnementaux pourraient corréler avec les tendances de santé publique au cours de l’une des crises sanitaires mondiales les plus difficiles de l’histoire récente.
+
+## OBJECTIFS
+
+Nos objectifs sont multiples :
+
+	•	Analyser les taux d’hospitalisation pour identifier les tendances clés et les fluctuations saisonnières.
+	•	Examiner l’impact potentiel des variations de température sur les taux d’hospitalisation, offrant des perspectives sur les influences environnementales sur la dynamique de la pandémie.
+	•	Investiguer la relation entre les admissions en soins intensifs et les taux de mortalité, évaluant si un taux élevé de cas graves conduit à une augmentation des décès.
+	•	Explorer les modèles saisonniers dans le contexte des hospitalisations et des décès, identifiant les périodes critiques de l’année.
+	•	Employer des techniques statistiques telles que les coefficients de corrélation de Pearson et l’analyse des séries temporelles, appuyées par des représentations visuelles des données, pour articuler nos découvertes de manière exhaustive.
+
+# ANALYSES
+## ACCES A LA BADR DE DONNÉE EN R
+```{r accès a la base de données via RMariaDB}
 library(RMariaDB)
 
 password <- rstudioapi::askForPassword("UT2J Password")
@@ -34,7 +46,7 @@ connection <- dbConnect(
 
 ## CREATION DE BASE DE DONNÉES.
 ```{r BASE DE DONNEES en SQL}
-#### TEMPERATURES TABLE
+### TEMPERATURES TABLE
 # CREATE TABLE TEMPERATURES(
 #   DATE_TEMP DATE,
 #   DEP_ID VARCHAR(3),
@@ -47,7 +59,7 @@ connection <- dbConnect(
 #   FOREIGN KEY (DEP_ID) REFERENCES PROJET_DEP(codeD)
 # );
 
-#### HOSPITALISATIONS TABLE
+### HOSPITALISATIONS TABLE
 # CREATE TABLE HOSPITALISATIONS(
 #   DEP_ID VARCHAR(3),
 #   SEX INT,
