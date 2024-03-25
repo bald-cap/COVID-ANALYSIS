@@ -29,9 +29,11 @@ Nos objectifs sont multiples :
 	•	Explorer les modèles saisonniers dans le contexte des hospitalisations et des décès, identifiant les périodes critiques de l’année.
 	•	Employer des techniques statistiques telles que les coefficients de corrélation de Pearson et l’analyse des séries temporelles, appuyées par des représentations visuelles des données, pour articuler nos découvertes de manière exhaustive.
 
+
+
 # ANALYSES
 ------------
-## ACCES A LA BADR DE DONNÉE EN R
+## ACCES A LA BASE DE DONNÉE EN R
 ```{r accès a la base de données via RMariaDB}
 library(RMariaDB)
 
@@ -236,3 +238,8 @@ plot(
 )
 ```
 J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d’hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.21, il existe une faible relation négative entre la température et le taux d’hospitalisation. Cela suggère une légère tendance à la baisse des hospitalisations avec l’augmentation des températures. Toutefois, cette relation est faible et indique que d’autres facteurs pourraient jouer un rôle plus significatif dans les taux d’hospitalisation. Cette analyse met en lumière la complexité des facteurs affectant les hospitalisations.
+
+
+
+# CONCLUSION
+-------------
