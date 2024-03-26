@@ -83,13 +83,115 @@ connection <- dbConnect(
 # );
 ```
 
+
+## VÉRIFICATION DE LA DISTRIBUTION DES DONNÉES
+Nous allons d'abord voir si les données son distribué normalement ou non.
+
+```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE TEMPERATURE }
+temp_data <- dbGetQuery(
+  connection,
+  "SELECT MIN_TEMP, MEAN_TEMP, MAX_TEMP
+  FROM TEMPRATURES"
+)
+
+par(mfrow = c(3, 1)) #3 rows, 1 column
+
+# HIST MIN_TEMP
+hist(
+  temp_data$MIN_TEMP,
+  main = "Histogram of Min Temperatures",
+  xlab = "Min Temperature",
+  col = "skyblue"
+)
+
+# HIST MEAN_TEMP
+hist(
+  temp_data$MEAN_TEMP,
+  main = "Histogram of Mean Temperatures",
+  xlab = "Mean Temperature",
+  col = "lightgreen"
+)
+
+# HIST MAX_TEMP
+hist(
+  temp_data$MAX_TEMP,
+  main = "Histogram of Max Temperatures",
+  xlab = "Max Temperature",
+  col = "salmon"
+)
+
+
+```
+
+```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE HOSPITALISATION }
+hosp_data <- dbGetQuery(
+  connection,
+  "SELECT  NUM_INTENSE_CARE, NUM_DEATHS, NUM_RETURN_HOME, NUM_HOSP
+  FROM HOSPITALISATIONS"
+)
+
+par(mfrow = c(2, 2)) #2 cloumns 2 rows
+
+# HIST NUM_INTENSE_CARE
+hist(
+  hosp_data$NUM_INTENSE_CARE,
+  main = "Histogram of Intense Care Cases",
+  xlab = "Intense Care Cases",
+  col = "skyblue"
+)
+
+# HISTNUM_DEATHS
+hist(
+  hosp_data$NUM_DEATHS,
+  main = "Histogram of Deaths",
+  xlab = "Deaths",
+  col = "lightgreen"
+)
+
+# HIST NUM_RETURN_HOME
+hist(
+  hosp_data$NUM_RETURN_HOME,
+  main = "Histogram of Returned Home",
+  xlab = "Returned Home",
+  col = "salmon"
+)
+
+# HIST NUM_HOSP
+hist(
+  hosp_data$NUM_HOSP,
+  main = "Histogram of Hospitalisations",
+  xlab = "Hospitalisations",
+  col = "yellow"
+)
+```
+
+```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE POPULATION }
+pop_data <- dbGetQuery(
+  connection,
+  "SELECT total
+  FROM PROJET_POPU"
+)
+
+# HIST TOTAL POPULATION
+hist(
+  pop_data$NUM_HOSP,
+  main = "Histogram of POPULATION",
+  xlab = "POPULATION",
+  col = "green"
+)
+
+```
+
+
+**CONCLUSION** -> Les variables qui seront étudiés sont normalement distribuées et cela nous conforte dans l'application des techniques d'analyse statistique choisies. Cela nous permet d'exploiter pleinement les méthodes paramétriques pour interpréter les tendances, les relations et les impacts au sein des données, fournissant ainsi des insights significatifs et robustes sur la dynamique de l'hospitalisation et de la température durant la periode choisie (2018-2021).
+
 ## ETUDE DE VARIABLE HOSPITALISATION
 ------------------------------------
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
 On aimerais etudier le lien entre le taux de cas intense et le taux de morts.
 
 ```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
-intense_case_deaths_data <- dbSendQuery(
+intense_case_deaths_data <- dbGetQuery(
   connection,
   "SELECT
     ((NUM_INTENSE_CARE/total) * 10000) AS INTENSE_CARE_10K,
@@ -111,31 +213,51 @@ cor_intense_case_deaths <- cor(
 print("Correlation: ", cor_intense_case_deaths)
 
 plot(
-  cor_intense_case_deaths$DATE_HOSP,
-  cor_intense_case_deaths$intensive_care_rate,
-  type = "l",
+  cor_intense_case_deaths$INTENSE_CARE_10K,
+  cor_intense_case_deaths$DEATHS_10K,
   col = "blue",
-  xlab = "Date",
-  ylab = "Rate",
-  main = "Intensive Care Rate and Death Rate Over Time"
+  xlab = "Intensive Care Rate per 10K",
+  ylab = "Death Rate per 10K",
+  main = "Scatter Plot of Intensive Care Rate vs. Death Rate",
+  pch = 19
+)
+
+lm_intense_case_deaths <- lm(
+  DEATHS_10K ~ INTENSE_CARE_10K,
+  data = intense_case_deaths_data
+)
+
+abline(
+  lm_intense_case_deaths,
+  col = "red"
 )
 
 lines(
   cor_intense_case_deaths$DATE_HOSP,
-  cor_intense_case_deaths$death_rate,
+  cor_intense_case_deaths$DEATHS_10K,
   col = "red"
 )
 
 legend(
   "topright",
-  legend = c("Intensive Care Rate", "Death Rate"),
-  col = c("blue", "red"),
-  lty = 1,
-  cex = 0.8
+  legend = paste("Correlation: ", round(correlation, 2)),
+  bty = "n"
 )
 ```
 Un coefficient de corrélation de 0.55 indique une relation linéaire positive modérée entre le nombre de cas en soins intensifs et le nombre de décès. Cela suggère que, bien qu'il existe une association entre ces variables, d'autres facteurs influencent également les taux de mortalité dans les données d'hospitalisations.
 
+
+#### TEST DE STUDENT | ETUDE DE REGRESSION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
+Nous allons maintenant réaliser un test de Student pour vérifier si nous pouvons rejeter l'hypothèse nulle concernant le coefficient de corrélation.
+```{r T TEST}
+
+summary_intense_cases_deaths <- summary(lm_intense_case_deaths)
+
+p_val_intense_cases_death <- summary_intense_cases_deaths$coefficients[2, 4]
+
+print("Valeur de P: ", p_val_intense_cases_death)
+```
+La valeur de p obtenue () nous permet de rejeter l'hypothèse nulle, confirmant ainsi que le taux de cas en soins intensifs a un impact significatif sur le taux d'hospitalisation. Cela indique une relation statistiquement significative entre les admissions en soins intensifs et les taux d'hospitalisation, soulignant l'importance des cas graves dans l'analyse des tendances hospitalières.
 
 ### TAUX D'HOSPITALISATIONS PAR SAISON
 On aimerais étudier le taux d'hospitalisations en fonctions de saisons
@@ -296,7 +418,9 @@ On aimerait voir s'il y a plus d'hospitalisations avec une hausse de la tempéra
 ```{r GRAPH DE OEFFICIENT DE CORRELATION (TEMP vs TAUX HOSP) pressure, echo=FALSE}
 temps_hosp_data <- dbGetQuery(
   connection,
-  "SELECT MEAN_TEMP, ((NUM_HOSP/total) * 10000) AS HOSP_RATE_10K
+  "SELECT 
+    MEAN_TEMP,
+    ((NUM_HOSP/total) * 10000) AS HOSP_RATE_10K,
   FROM TEMPERATURES T
   RIGHT JOIN HOSPITALISATIONS H
     ON H.DEP_ID = T.DEP_ID AND H.DATE_HOSP = T.DATE_TEMP
@@ -312,6 +436,13 @@ cor_hosp_temp <- cor(
   temps_hosp_data$HOSP_RATE_10K
 )
 
+print("Coefficient of Correlation :", cor_hosp_temp)
+
+lm_hosp_temp <- lm(
+  HOSP_RATE_10K ~ MEAN_TEMP,
+  data = temps_hosp_data
+)
+
 plot(
   temps_hosp_data$MEAN_TEMP,
   temps_hosp_data$HOSP_RATE_10K,
@@ -320,6 +451,8 @@ plot(
   ylab = "HOSPITALISATION RATE PER 10K",
   pch = 20
 )
+
+abline(linear_model, col = "red")
 ```
 J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d’hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.21, il existe une faible relation négative entre la température et le taux d’hospitalisation. Cela suggère une légère tendance à la baisse des hospitalisations avec l’augmentation des températures. Toutefois, cette relation est faible et indique que d’autres facteurs pourraient jouer un rôle plus significatif dans les taux d’hospitalisation. Cette analyse met en lumière la complexité des facteurs affectant les hospitalisations.
 
@@ -327,8 +460,11 @@ J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d�
 ### ANALYSE DE REGRESSION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
 Nous cherchons à comprendre et à prédire l'influence de la température sur le taux d'hospitalisations. À travers une analyse de régression, nous établirons un modèle mathématique qui nous permettra de déterminer si des variations de température peuvent être associées à une augmentation ou une diminution du nombre d'hospitalisations.
 
-```{r REGRESSION LINEAIRE ENTRE LA TEMPERATURE ET LE T'AUX D'HOSPITALISATIONS}
+```{r TEST DE T | LA TEMPERATURE ET LE T'AUX D'HOSPITALISATIONS}
 
+summary_hosp_temp <- summary(lm_hosp_temp)
+
+print("Valeur de P: ", summary_hosp_temp$coefficients["MEAN_TEMP", 4])
 ```
 
 

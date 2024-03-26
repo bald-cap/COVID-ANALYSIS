@@ -43,13 +43,12 @@
 1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH
 
 2. Calculate the linear regression between temperature and hospitalisation.
-- Draw your scatter plot with your correlation coefficient and your linear gradient.
+- Draw your .
 
 3. Calculate the linear regression between intense care and deaths.
-- Draw your scatter plot with your correlation coefficient and your linear gradient.
 
 4. P values to know if it happened by coincidence.
-- Alpha level
+
 - Critical Value Bar number
 - Confidence Interval
 
@@ -60,6 +59,10 @@
 
 - Calculate CDD/HDD in the Winter period to support your Correlation Coefficient analysis
 
+- Alpha level - INTENSE CARE AND DEATHS
 
+- Scatter plot with your correlation coefficient and your linear gradient
+
+- Scatter plot with your correlation coefficient and your linear gradient
 
 ## To Ask
