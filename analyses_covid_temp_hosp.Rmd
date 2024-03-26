@@ -24,7 +24,7 @@ Cette analyse se penche sur la relation complexe entre les données d’hospital
 ---------------
 Nos objectifs sont multiples :
 
-- Analyser les Taux d’Hospitalisation : Identifier les tendances clés et les fluctuations significatives des taux d’hospitalisation, en mettant l’accent sur les variations saisonnières et leur impact potentiel sur la gestion de la crise sanitaire.
+- **Analyser les Taux d’Hospitalisation** : Identifier les tendances clés et les fluctuations significatives des taux d’hospitalisation, en mettant l’accent sur les variations saisonnières et leur impact potentiel sur la gestion de la crise sanitaire.
 - **Impact des Variations de Température** : Examiner comment les changements de température influencent les taux d’hospitalisation, pour révéler les liens possibles entre les conditions climatiques et les patterns d’hospitalisation durant la pandémie.
 - **Relation entre Soins Intensifs et Mortalité** : Évaluer la corrélation entre les admissions en soins intensifs et les taux de mortalité, pour comprendre si une augmentation des cas graves est proportionnellement liée à une hausse de la mortalité.
 - **Modèles Saisonniers des Hospitalisations et Décès** : Explorer les patterns saisonniers relatifs aux hospitalisations et aux décès, pour identifier les périodes de l’année présentant des risques accrus.
