@@ -1,11 +1,12 @@
 ---
-title: "COVID_TEMP_HOSP_ANALYSIS"
+title: "Analyse des Liens entre Température, Hospitalisations et COVID-19"
 author: "
   Michael NYANYUIE,
   Divine IZERE
   Lucky Bernice
   Medhi 
-  Rayane "
+  Rayane
+"
 date: "2024-03-23"
 output: html_document
 ---
@@ -24,12 +25,12 @@ Cette analyse se penche sur la relation complexe entre les données d’hospital
 ---------------
 Nos objectifs sont multiples :
 
-- **Analyser les Taux d’Hospitalisation** : Identifier les tendances clés et les fluctuations significatives des taux d’hospitalisation, en mettant l’accent sur les variations saisonnières et leur impact potentiel sur la gestion de la crise sanitaire.
-- **Impact des Variations de Température** : Examiner comment les changements de température influencent les taux d’hospitalisation, pour révéler les liens possibles entre les conditions climatiques et les patterns d’hospitalisation durant la pandémie.
-- **Relation entre Soins Intensifs et Mortalité** : Évaluer la corrélation entre les admissions en soins intensifs et les taux de mortalité, pour comprendre si une augmentation des cas graves est proportionnellement liée à une hausse de la mortalité.
-- **Modèles Saisonniers des Hospitalisations et Décès** : Explorer les patterns saisonniers relatifs aux hospitalisations et aux décès, pour identifier les périodes de l’année présentant des risques accrus.
-- **Application des Techniques Statistiques** : Utiliser des outils analytiques avancés, notamment les coefficients de corrélation de Pearson et l’analyse des séries temporelles, pour une interprétation précise et nuancée des données.
-- **Régression Linéaire pour la Prédiction** : Incorporer des modèles de régression linéaire pour prédire l’impact des variations de température sur les taux d’hospitalisation, enrichissant ainsi notre analyse avec une dimension prédictive.
+- **Décrypter les Tendances d’Hospitalisation** : Analyser les données d’hospitalisation pour dégager des insights sur les tendances saisonnières et leur potentiel impact sur la gestion des crises sanitaires.
+- **Évaluer l’Influence Climatique** : Investiguer les effets des variations de température sur les taux d’hospitalisation, explorant ainsi la corrélation entre la météo et la santé publique en période de pandémie.
+- **Lier Soins Intensifs et Issues Mortelles** : Étudier la relation entre le nombre de patients en soins intensifs et le taux de mortalité pour évaluer l’impact des cas sévères sur les issues fatales.
+- **Comprendre les Modèles Saisonniers** : Identifier les saisons à risque accru d’hospitalisation et de mortalité, soulignant l’importance du calendrier dans la lutte contre la pandémie.
+- **Mobiliser des Outils Statistiques Pertinents** : Appliquer des analyses statistiques rigoureuses, comme le coefficient de corrélation de Pearson et l’analyse de régression linéaire, pour interpréter fidèlement les données recueillies.
+- **Prédire via la Régression Linéaire** : Utiliser la régression linéaire pour anticiper l’effet des températures sur les hospitalisations, enrichissant notre étude d’une dimension prédictive.
 
 
 # ANALYSES
