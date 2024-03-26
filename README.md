@@ -40,6 +40,9 @@
 2. Calculate the linear regression between temperature and hospitalisation.
 - Draw your scatter plot with your correlation coefficient and your linear gradient.
 
+Calculate the linear regression between intense care and deaths.
+- Draw your scatter plot with your correlation coefficient and your linear gradient.
+
 ### DONE BUT NOT PLOTTED
 - Correlation Coefficient between TEMP and HOSP
 
