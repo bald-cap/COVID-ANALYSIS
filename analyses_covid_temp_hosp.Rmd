@@ -24,12 +24,12 @@ Cette analyse se penche sur la relation complexe entre les données d’hospital
 ---------------
 Nos objectifs sont multiples :
 
-	•	Analyser les taux d’hospitalisation pour identifier les tendances clés et les fluctuations saisonnières.
-	•	Examiner l’impact potentiel des variations de température sur les taux d’hospitalisation, offrant des perspectives sur les influences environnementales sur la dynamique de la pandémie.
-	•	Investiguer la relation entre les admissions en soins intensifs et les taux de mortalité, évaluant si un taux élevé de cas graves conduit à une augmentation des décès.
-	•	Explorer les modèles saisonniers dans le contexte des hospitalisations et des décès, identifiant les périodes critiques de l’année.
-	•	Employer des techniques statistiques telles que les coefficients de corrélation de Pearson et l’analyse des séries temporelles, appuyées par des représentations visuelles des données, pour articuler nos découvertes de manière exhaustive.
-
+- Analyser les Taux d’Hospitalisation : Identifier les tendances clés et les fluctuations significatives des taux d’hospitalisation, en mettant l’accent sur les variations saisonnières et leur impact potentiel sur la gestion de la crise sanitaire.
+- **Impact des Variations de Température** : Examiner comment les changements de température influencent les taux d’hospitalisation, pour révéler les liens possibles entre les conditions climatiques et les patterns d’hospitalisation durant la pandémie.
+- **Relation entre Soins Intensifs et Mortalité** : Évaluer la corrélation entre les admissions en soins intensifs et les taux de mortalité, pour comprendre si une augmentation des cas graves est proportionnellement liée à une hausse de la mortalité.
+- **Modèles Saisonniers des Hospitalisations et Décès** : Explorer les patterns saisonniers relatifs aux hospitalisations et aux décès, pour identifier les périodes de l’année présentant des risques accrus.
+- **Application des Techniques Statistiques** : Utiliser des outils analytiques avancés, notamment les coefficients de corrélation de Pearson et l’analyse des séries temporelles, pour une interprétation précise et nuancée des données.
+- **Régression Linéaire pour la Prédiction** : Incorporer des modèles de régression linéaire pour prédire l’impact des variations de température sur les taux d’hospitalisation, enrichissant ainsi notre analyse avec une dimension prédictive.
 
 
 # ANALYSES
