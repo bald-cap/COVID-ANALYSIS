@@ -3,9 +3,9 @@ title: "Analyse des Liens entre Température, Hospitalisations et COVID-19"
 author: "
   Michael NYANYUIE,
   Divine IZERE
-  Lucky Bernice
-  Medhi 
-  Rayane
+  Lucky Bernice IKAZE
+  Medhi HIMMICHE
+  Rayane BENCHOKROUN
 "
 date: "2024-03-23"
 output: html_document
@@ -92,7 +92,7 @@ Nous allons d'abord voir si les données son distribué normalement ou non.
 temp_data <- dbGetQuery(
   connection,
   "SELECT MIN_TEMP, MEAN_TEMP, MAX_TEMP
-  FROM TEMPRATURES"
+  FROM TEMPERATURES"
 )
 
 par(mfrow = c(3, 1)) #3 rows, 1 column
@@ -121,9 +121,8 @@ hist(
   col = "salmon"
 )
 
-
 ```
-
+D'après les histograms on voit 
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE HOSPITALISATION }
 hosp_data <- dbGetQuery(
   connection,
@@ -165,6 +164,7 @@ hist(
   col = "yellow"
 )
 ```
+L'observation des histogrammes révèle une forme de courbe en cloche, indiquant une distribution normale des données. Cette caractéristique suggère que la majorité des observations se concentre autour de la moyenne, validant l'utilisation de méthodes statistiques paramétriques pour notre analyse.
 
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE POPULATION }
 pop_data <- dbGetQuery(
@@ -369,6 +369,7 @@ D'apres les taux rélévés de cet examen, il est observé que le printemps a co
 ## ETUDE DE VARIABLE TEMPERATURE
 --------------------------------
 ### Indice CDD/HDD
+
 ```{r GRAPH DE l'INDICE CDD/HDD}
 cdd_hdd_query <- "
 WITH HEATING_DAYS AS(
