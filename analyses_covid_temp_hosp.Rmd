@@ -2,9 +2,9 @@
 title: "Analyse des Liens entre Température, Hospitalisations et COVID-19"
 author: "
   Michael NYANYUIE,
-  Divine IZERE
-  Lucky Bernice IKAZE
-  Medhi HIMMICHE
+  Divine IZERE,
+  Lucky Bernice IKAZE,
+  Medhi HIMMICHE,
   Rayane BENCHOKROUN
 "
 date: "2024-03-23"
@@ -214,8 +214,8 @@ cor_intense_case_deaths <- cor(
 print("Correlation: ", cor_intense_case_deaths)
 
 plot(
-  cor_intense_case_deaths$INTENSE_CARE_10K,
-  cor_intense_case_deaths$DEATHS_10K,
+  intense_case_deaths$INTENSE_CARE_10K,
+  intense_case_deaths$DEATHS_10K,
   col = "blue",
   xlab = "Intensive Care Rate per 10K",
   ylab = "Death Rate per 10K",
@@ -256,7 +256,7 @@ summary_intense_cases_deaths <- summary(lm_intense_case_deaths)
 
 p_val_intense_cases_death <- summary_intense_cases_deaths$coefficients[2, 4]
 
-print("Valeur de P: ", p_val_intense_cases_death)
+print(paste("Valeur de P: ", p_val_intense_cases_death))
 ```
 La valeur de p obtenue () nous permet de rejeter l'hypothèse nulle, confirmant ainsi que le taux de cas en soins intensifs a un impact significatif sur le taux d'hospitalisation. Cela indique une relation statistiquement significative entre les admissions en soins intensifs et les taux d'hospitalisation, soulignant l'importance des cas graves dans l'analyse des tendances hospitalières.
 
@@ -438,7 +438,7 @@ cor_hosp_temp <- cor(
   temps_hosp_data$HOSP_RATE_10K
 )
 
-print("Coefficient of Correlation :", cor_hosp_temp)
+print(paste("Coefficient of Correlation :", cor_hosp_temp))
 
 lm_hosp_temp <- lm(
   HOSP_RATE_10K ~ MEAN_TEMP,
@@ -462,13 +462,20 @@ J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d�
 ### ANALYSE DE REGRESSION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
 Nous cherchons à comprendre et à prédire l'influence de la température sur le taux d'hospitalisations. À travers une analyse de régression, nous établirons un modèle mathématique qui nous permettra de déterminer si des variations de température peuvent être associées à une augmentation ou une diminution du nombre d'hospitalisations.
 
-```{r TEST DE T | LA TEMPERATURE ET LE T'AUX D'HOSPITALISATIONS}
+```{r TEST DE T | LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS}
 
 summary_hosp_temp <- summary(lm_hosp_temp)
 
-print("Valeur de P: ", summary_hosp_temp$coefficients["MEAN_TEMP", 4])
+print(paste("Valeur de P: ", summary_hosp_temp$coefficients["MEAN_TEMP", 4]))
 ```
 
 
 # CONCLUSION
 -------------
+
+
+
+
+```{r SIGNING OUT}
+dbDisconnect(connection)
+```
