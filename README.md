@@ -63,10 +63,10 @@
 eg. of conclusion -> you can conclude by saying that even though more younger were hospitalised the number of dates are higher within the aged group
 
 8. Regional Distribution -> Did the coldest areas in France have the highest Hospitalisations ?
-- Group Temp by Regions
-- Group Hosp by Regions
+- Group Temp by Regions - Heat map
+- Group Hosp by Regions - Heat map
 
-Try to plot data on a heat map.
+And compare the 2 maps and conclude
 
 
 ### DONE BUT NOT PLOTTED
