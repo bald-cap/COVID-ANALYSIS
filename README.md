@@ -52,6 +52,23 @@
 - Critical Value Bar number
 - Confidence Interval
 
+#### COVID ANALYSIS 
+
+5. Dominant age groups in the intensive care unit
+
+6. Dominant ages groups that died
+
+7. Are the dominant age groups that are in the intensive care unit those that died?
+- Represent it on a histogram where the each year group has a bar for intensive care and another for deaths. 
+eg. of conclusion -> you can conclude by saying that even though more younger were hospitalised the number of dates are higher within the aged group
+
+8. Regional Distribution -> Did the coldest areas in France have the highest Hospitalisations ?
+- Group Temp by Regions
+- Group Hosp by Regions
+
+Try to plot data on a heat map.
+
+
 ### DONE BUT NOT PLOTTED
 - Correlation Coefficient between TEMP and HOSP
 
