@@ -1,10 +1,10 @@
 ## STATS SHS PROJECT
  Un projet de Statistiqies S4 de MIASHS realisé par:
  
- - Michael NYANYUIE,
- - Divine IZERE,
- - Lucky Bernice IKAZE,
- - Medhi HIMMICHE,
+ - Michael NYANYUIE
+ - Divine IZERE
+ - Lucky Bernice IKAZE
+ - Medhi HIMMICHE
  - Rayane BENCHOKROUN
 
  ## OBSERVATIONS
