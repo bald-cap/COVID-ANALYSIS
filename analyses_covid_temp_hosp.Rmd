@@ -207,8 +207,8 @@ intense_case_deaths_data <- dbGetQuery(
 )
 
 cor_intense_case_deaths <- cor(
-  intense_case_deaths_data$INTENSE_CARE_10K,
-  intense_case_deaths_data$DEATHS_10K
+  as.numeric(intense_case_deaths_data$INTENSE_CARE_10K),
+  as.numeric(intense_case_deaths_data$DEATHS_10K)
 )
 
 print("Correlation: ", cor_intense_case_deaths)
@@ -258,7 +258,7 @@ p_val_intense_cases_death <- summary_intense_cases_deaths$coefficients[2, 4]
 
 print(paste("Valeur de P: ", p_val_intense_cases_death))
 ```
-La valeur de p obtenue () nous permet de rejeter l'hypothèse nulle, confirmant ainsi que le taux de cas en soins intensifs a un impact significatif sur le taux d'hospitalisation. Cela indique une relation statistiquement significative entre les admissions en soins intensifs et les taux d'hospitalisation, soulignant l'importance des cas graves dans l'analyse des tendances hospitalières.
+La valeur de p obtenue (0.507) nous permet de rejeter l'hypothèse nulle, confirmant ainsi que le taux de cas en soins intensifs a un impact significatif sur le taux d'hospitalisation. Cela indique une relation statistiquement significative entre les admissions en soins intensifs et les taux d'hospitalisation, soulignant l'importance des cas graves dans l'analyse des tendances hospitalières.
 
 ### TAUX D'HOSPITALISATIONS PAR SAISON
 On aimerais étudier le taux d'hospitalisations en fonctions de saisons
