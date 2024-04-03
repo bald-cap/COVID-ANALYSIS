@@ -31,6 +31,12 @@
 4. OUTSIDE THE COVID PERIOD -> MORE CASES WERE RECORDED IN SPRING(2.393) AND THE LEAST IN AUTUMN(0.653)
 - DURING THE COVID PERIOD -> MORE CASES WERE RECORDED IN WINTER(2.393) AND THE LEAST IN SUMMER(0.519)
 
+5. Dominant age groups in the intensive care unit
+40 - 59 (2020 and 2021)
+75+ least
+
+6. Dominant ages groups that died
+Same trend as the previous data 
 ### TEMPERATURE TABLE
 1. TABLE IS MISSING D.O.Ms (Departements Outre Mer)
 
@@ -53,10 +59,6 @@
 - Confidence Interval
 
 #### COVID ANALYSIS 
-
-5. Dominant age groups in the intensive care unit
-
-6. Dominant ages groups that died
 
 7. Are the dominant age groups that are in the intensive care unit those that died?
 - Represent it on a histogram where the each year group has a bar for intensive care and another for deaths. 
