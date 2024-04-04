@@ -245,6 +245,8 @@ deaths_groups <- dbGetQuery(
     ON P.codeD = H.DEP_ID
   WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL
   GROUP BY YEAR(DATE_HOSP)"
+
+  # ADD GRAPH
 )
 ```
 Les données montrent une nette augmentation du taux de décès dans toutes les tranches d'âge entre 2020 et 2021. Les tranches d'âge les plus âgées, 60-74 ans et surtout 75 ans et plus, présentent les augmentations les plus marquées, passant de 18,6426 et 32,7698 en 2020 à 69,0540 et 121,3823 en 2021 pour 10 000 habitants, respectivement. Cette tendance indique un impact significatif sur la mortalité des populations âgées pendant cette période, probablement exacerbé par la pandémie de COVID-19, mettant en évidence la vulnérabilité accrue de ces groupes d'âge face aux conditions critiques de santé.
