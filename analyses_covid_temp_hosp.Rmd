@@ -2,7 +2,7 @@
 title: "Analyse des Liens entre Température, Hospitalisations et COVID-19"
 author: "
   Michael NYANYUIE,
-  Divine IZERE,
+  Divin IZERE,
   Lucky Bernice IKAZE,
   Medhi HIMMICHE,
   Rayane BENCHOKROUN
@@ -188,6 +188,68 @@ hist(
 
 ## ETUDE DE VARIABLE HOSPITALISATION
 ------------------------------------
+
+## ETUDE DE TAUX DE CAS INTENSIVES POUR LES DIFFERENTES TRANCHES D'AGES
+
+```{r GRAPHE DE CAS INTENSIVE PAR TRANCHE D'AGE}
+intense_cases_groups <- dbGetQuery(
+  connection,
+  "SELECT
+    (SUM(NUM_INTENSE_CARE) / SUM(age0_19)) * 10000 AS INTENSE_RATE_0_19,
+    (SUM(NUM_INTENSE_CARE) / SUM(age20_39)) * 10000 AS INTENSE_RATE_20_39,
+    (SUM(NUM_INTENSE_CARE) / SUM(age40_59)) * 10000 AS INTENSE_RATE_40_59,
+    (SUM(NUM_INTENSE_CARE) / SUM(age60_74)) * 10000 AS INTENSE_RATE_60_74,
+    (SUM(NUM_INTENSE_CARE) / SUM(age75_et_plus)) * 10000
+    AS INTENSE_RATE_75_Plus,
+    YEAR(DATE_HOSP)
+  FROM HOSPITALISATIONS H
+  LEFT JOIN PROJET_POPU P
+    ON P.codeD = H.DEP_ID
+  WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL
+  GROUP BY YEAR(DATE_HOSP)
+  "
+)
+
+hist_intense_cases_groups <- hist(
+  c(
+    intense_cases_groups$INTENSE_RATE_0_19,
+    intense_cases_groups$INTENSE_RATE_20_39,
+    intense_cases_groups$INTENSE_RATE_40_59,
+    intense_cases_groups$INTENSE_RATE_60_74,
+    intense_cases_groups$INTENSE_RATE_75_Plus
+  ),
+  main = "Cas intensives par tranche d'age",
+  xlab = "Tranche d'Age",
+  ylab = "Nombre de Cas Intensif"
+)
+
+```
+Les résultats indiquent une augmentation significative des taux d'hospitalisation en soins intensifs pour toutes les tranches d'âge entre 2020 et 2021. En particulier, les tranches d'âge les plus affectées sont celles des 60-74 ans et des 75 ans et plus, avec des taux qui passent respectivement de 1,9435 et 3,4163 en 2020 à 2,3469 et 4,1254 en 2021 pour 10 000 habitants. Cette tendance souligne une vulnérabilité accrue des populations âgées face aux conditions nécessitant des soins intensifs, ce qui peut refléter l'impact de la pandémie de COVID-19 ou d'autres facteurs de santé publique affectant ces groupes d'âge spécifiques durant cette période.
+
+
+## ETUDES DE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGES. 
+La question donc se pose est-ce qu'il y a une relation entre les cas intansifs et le taux d'hospitalisations?
+
+``` {r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGE}
+deaths_groups <- dbGetQuery(
+  connection,
+  "SELECT
+    (SUM(NUM_DEATHS) / SUM(age0_19)) * 10000 AS DEATHS_RATE_0_19,
+    (SUM(NUM_DEATHS) / SUM(age20_39)) * 10000 AS DEATHS_RATE_20_39,
+    (SUM(NUM_DEATHS) / SUM(age40_59)) * 10000 AS DEATHS_RATE_40_59,
+    (SUM(NUM_DEATHS) / SUM(age60_74)) * 10000 AS DEATHS_RATE_60_74,
+    (SUM(NUM_DEATHS) / SUM(age75_et_plus)) * 10000 AS DEATHS_RATE_75_Plus,
+    YEAR(DATE_HOSP)
+  FROM HOSPITALISATIONS H
+  LEFT JOIN PROJET_POPU P
+    ON P.codeD = H.DEP_ID
+  WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL
+  GROUP BY YEAR(DATE_HOSP)"
+)
+```
+Les données montrent une nette augmentation du taux de décès dans toutes les tranches d'âge entre 2020 et 2021. Les tranches d'âge les plus âgées, 60-74 ans et surtout 75 ans et plus, présentent les augmentations les plus marquées, passant de 18,6426 et 32,7698 en 2020 à 69,0540 et 121,3823 en 2021 pour 10 000 habitants, respectivement. Cette tendance indique un impact significatif sur la mortalité des populations âgées pendant cette période, probablement exacerbé par la pandémie de COVID-19, mettant en évidence la vulnérabilité accrue de ces groupes d'âge face aux conditions critiques de santé.
+
+
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
 On aimerais etudier le lien entre le taux de cas intense et le taux de morts.
 
