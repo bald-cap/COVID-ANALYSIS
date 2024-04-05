@@ -268,9 +268,9 @@ barplot(
 En 2020, le groupe le plus touché par les décès est celui des personnes âgées de 75 ans et plus, tandis que le groupe le moins affecté est celui des 0-19 ans. Cette différence souligne la susceptibilité accrue des personnes âgées aux issues graves, nécessitant une analyse plus approfondie pour déterminer si les taux élevés de décès sont directement corrélés aux cas nécessitant des soins intensifs. Comprendre cette corrélation aidera à cibler les interventions et à allouer les ressources de manière plus efficace pour protéger les populations vulnérables.
 
 
-### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES EN 2020
+### LA CORRELATION ENTRE LE TAUX DE CAS INTENSIFS ET LE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES EN 2020
 Cette analyse vise à explorer la relation entre le taux de cas en soins intensifs et le taux de mortalité afin de déterminer si une corrélation directe existe entre ces deux variables. À travers l'utilisation d'histogrammes, nous chercherons à visualiser la distribution des cas en soins intensifs par rapport aux taux de mortalité correspondants, permettant ainsi une compréhension plus profonde des dynamiques de gravité au sein de la population hospitalisée. Cette méthode statistique nous aidera à identifier visuellement les tendances et à soutenir l'analyse quantitative de la corrélation potentielle.
-```{r }
+```{r HISTOGRAMMES DÉMONTRANT LA RELATION ENTRE LES TAUX DE CAS INTENSIFS ET LES TAUX DE MORTALITÉS}
 hist_deaths_intense_0_19 <- barplot(
   height = rbind(
     intense_cases_groups$INTENSE_RATE_0_19,
