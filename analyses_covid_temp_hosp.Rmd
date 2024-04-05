@@ -268,7 +268,7 @@ barplot(
 En 2020, le groupe le plus touché par les décès est celui des personnes âgées de 75 ans et plus, tandis que le groupe le moins affecté est celui des 0-19 ans. Cette différence souligne la susceptibilité accrue des personnes âgées aux issues graves, nécessitant une analyse plus approfondie pour déterminer si les taux élevés de décès sont directement corrélés aux cas nécessitant des soins intensifs. Comprendre cette corrélation aidera à cibler les interventions et à allouer les ressources de manière plus efficace pour protéger les populations vulnérables.
 
 
-### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE
+### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES EN 2020
 Cette analyse vise à explorer la relation entre le taux de cas en soins intensifs et le taux de mortalité afin de déterminer si une corrélation directe existe entre ces deux variables. À travers l'utilisation d'histogrammes, nous chercherons à visualiser la distribution des cas en soins intensifs par rapport aux taux de mortalité correspondants, permettant ainsi une compréhension plus profonde des dynamiques de gravité au sein de la population hospitalisée. Cette méthode statistique nous aidera à identifier visuellement les tendances et à soutenir l'analyse quantitative de la corrélation potentielle.
 ```{r }
 hist_deaths_intense_0_19 <- barplot(
@@ -345,7 +345,57 @@ hist_deaths_intense_75_plus <- barplot(
 En 2020, le groupe d'âge des 75 ans et plus a enregistré le taux le plus élevé de cas en soins intensifs (3.4163) ainsi que le taux le plus élevé de décès (32.7698), ce qui souligne une vulnérabilité marquée chez les personnes âgées face à la COVID-19. Le groupe d'âge 60-74 ans montre également un taux plus élevé en soins intensifs (1.9435) comparé aux autres groupes plus jeunes, et un taux de décès (18.6426) qui suit la même tendance. En comparaison, les groupes d'âge plus jeunes ont montré des taux nettement inférieurs, tant en soins intensifs qu'en mortalité, avec le groupe d'âge 0-19 ans ayant les taux les plus bas. Ces observations peuvent indiquer une corrélation entre l'âge, la gravité des cas de COVID-19 nécessitant des soins intensifs et le risque de décès.
 
 
+### ETUDE COMPARATIVE DE TEMPERATURES MOYENNES ET TAUX DE SOINS INTENSIFS PAR REGION
 
+```{r CARTE THERMIQUE DES TEMPÉRATURES MOYENNES ET DES TAUX DE SOINS INTENSIFS RÉGIONAUX}
+library(pheatmap)
+
+temps_per_reg <- dbGetQuery(
+  connection,
+  "SELECT
+    CASE 
+        WHEN R.codeR IN (11, 24, 27, 28, 32, 44, 52, 53) THEN 'NORTH'
+        WHEN R.codeR IN (75, 76, 84, 93, 94) THEN 'SOUTH'
+    END AS REGS,
+    AVG(T.MEAN_TEMP) AS AVG_TEMPS,
+    SUM(NUM_INTENSE_CARE)/ SUM(total) * 10000 AS INTENSE_CARE_RATE
+  FROM PROJET_DEP D
+  INNER JOIN PROJET_REG R
+  ON R.codeR = D.codeR
+  INNER JOIN PROJET_POPU P
+  ON P.codeD = D.codeD
+  INNER JOIN TEMPERATURES T
+  ON T.DEP_ID = D.codeD
+  INNER JOIN HOSPITALISATIONS H
+  ON H.DEP_ID = T.DEP_ID
+  WHERE YEAR(T.DATE_TEMP) IN (2020)
+  GROUP BY REGS"
+)
+
+data_matrix <- as.matrix(
+  temps_per_reg[,
+    c("AVG_TEMPS", "INTENSE_CARE_RATE")
+  ]
+)
+
+rownames(data_matrix) <- temps_per_reg$REGS
+
+
+pheatmap(data_matrix,
+  scale = "row",
+  clustering_distance_rows = "euclidean",
+  clustering_distance_cols = "euclidean",
+  color = colorRampPalette(
+    c("blue", "white", "red")
+  )(255),
+  main = "Heatmap of Average Temperatures and Intensive Care Rates by Region",
+  annotation_row = data.frame(Region = temps_per_reg$REGS)
+)
+
+```
+Sur la base des données représentées sur la carte thermique, on peut conclure que la région Sud de la France présente une température moyenne plus élevée (14.19°C) par rapport à la région Nord (12.90°C). Cependant, malgré des températures plus clémentes, le taux de soins intensifs dans la région Sud est inférieur (0.2213 pour 10 000 habitants) à celui de la région Nord (0.2580 pour 10 000 habitants). 
+
+### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE SUR TOUTE LA POPULATION
 ```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
 intense_case_deaths_data <- dbGetQuery(
   connection,

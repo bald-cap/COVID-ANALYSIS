@@ -46,14 +46,14 @@ Same trend as the previous data
 - Except in 2021 where they both get closer
 
 ## TO-DO
-1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH
+<!-- 1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH -->
 
-2. Calculate the linear regression between temperature and hospitalisation.
-- Draw your .
+<!-- 2. Calculate the linear regression between temperature and hospitalisation.
+- Draw your . -->
 
-3. Calculate the linear regression between intense care and deaths.
+<!-- 3. Calculate the linear regression between intense care and deaths. -->
 
-4. P values to know if it happened by coincidence.
+<!-- 4. P values to know if it happened by coincidence. NULL HYPOTHESIS REJECTED -->
 
 - Critical Value Bar number
 - Confidence Interval
@@ -72,16 +72,8 @@ And compare the 2 maps and conclude
 
 
 ### DONE BUT NOT PLOTTED
-- Correlation Coefficient between TEMP and HOSP
-
 - CDD/HDD over the 4 years
 
-- Calculate CDD/HDD in the Winter period to support your Correlation Coefficient analysis
-
 - Alpha level - INTENSE CARE AND DEATHS
-
-- Scatter plot with your correlation coefficient and your linear gradient
-
-- Scatter plot with your correlation coefficient and your linear gradient
 
 ## To Ask
