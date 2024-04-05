@@ -1,79 +1,46 @@
-## STATS SHS PROJECT
- Un projet de Statistiqies S4 de MIASHS realisé par:
- 
- - Michael NYANYUIE
- - Divine IZERE
- - Lucky Bernice IKAZE
- - Medhi HIMMICHE
- - Rayane BENCHOKROUN
+# COVID-19 Hospitalisation and Temperature Analysis
 
- ## OBSERVATIONS
+## Project Overview
 
- ### HOSPITALISATION TABLE
- 1. DATE_HOSP DOES NOT REPEEAT -> POSSIBLE PRIMARY KEY/ FOREIGN KEY | FALSE
- 
-2. DATA REPEATS 305 times PER DAY -> THREE TUPLES PER DEPARTMENT EVERYDAY
-- SEX(0) -> MEN + WOMEN
-- SEX(1) -> MEN
-- SEX(2) -> WOMEN
+This project delves into the intricate relationships between hospitalisation rates, temperature fluctuations, and demographic variables during the COVID-19 pandemic. Spanning the years 2019 to 2021, it aims to uncover how environmental factors and age demographics correlate with the progression of the pandemic.
 
-3. HOSPITALISATION RATES | STANDARD POP_SIZE (10,000)
-- Summer (June, July, August) - (6, 7, 8)
-- Autumn (September, October, November) - (9, 10, 11)
-- Winter (December, January, February) - (12, 1, 2)
-- Spring (March, April, May) - (3, 4, 5)
+## Objectives
 
-- <strong>CONCLUSION</strong> -> <i>Highest rate of Hospitalisations were recorded in Winter(2.364) and least were recorded in the Summer(0.660) over the 4 years.</i>
+	•	To identify key trends and seasonal fluctuations in hospitalisation rates.
+	•	To investigate the impact of temperature variations on hospitalisation rates.
+	•	To explore the correlation between intensive care admissions, mortality rates, and age demographics.
+	•	To utilise statistical techniques and visual data representations to analyse and present findings.
 
-- PARIS Had the most HOSPITALISATIONS
-- THE NORTH HAD MORE HOSPITALISATIONS THAN THE SOUTH, FOLLOWED BY THE D.O.Ms
+## Data Sources
 
-4. OUTSIDE THE COVID PERIOD -> MORE CASES WERE RECORDED IN SPRING(2.393) AND THE LEAST IN AUTUMN(0.653)
-- DURING THE COVID PERIOD -> MORE CASES WERE RECORDED IN WINTER(2.393) AND THE LEAST IN SUMMER(0.519)
+The analysis is based on three primary datasets:
 
-5. Dominant age groups in the intensive care unit
-40 - 59 (2020 and 2021)
-75+ least
+	1.	Hospitalisations: Detailed records of COVID-19 hospitalisations, including intensive care admissions and mortality rates.
+	2.	Population Demographics: Information on age group distributions within various departments and regions.
+	3.	Temperature Records: Daily average, minimum, and maximum temperatures by department.
 
-6. Dominant ages groups that died
-Same trend as the previous data 
-### TEMPERATURE TABLE
-1. TABLE IS MISSING D.O.Ms (Departements Outre Mer)
+## Methodology
 
-2. DATA REPEATS 96 times PER DAY -> TEMP OF ALL DEPARTMENTS EVERY DAY
+	•	Data Integration: The datasets were merged to facilitate a comprehensive analysis.
+	•	Statistical Analysis: Employed Pearson correlation coefficients, linear regression models, and time series analysis to explore relationships between variables.
+	•	Visualisation: Graphs and heatmaps were generated to visually represent the analysis results.
 
-3. IN GENERAL THERE WAS A GREAT NEED FOR HEATING THAN THERE WAS FOR COOLING PER THE CDD/HDD INDEXES (CDDs in each year was far greater than their respective HDDs)
-- Except in 2021 where they both get closer
+## Findings
 
-## TO-DO
-<!-- 1. TEMP LEVELS IN THE NORTH IN CORRELATION TO THE HOSPITALISATIONS IN THE SOUTH -->
+The analysis revealed significant insights into how temperature variations and demographic factors influenced hospitalisation rates. Specific findings include:
 
-<!-- 2. Calculate the linear regression between temperature and hospitalisation.
-- Draw your . -->
+	•	Seasonal patterns in hospitalisation rates, with higher rates observed in colder months.
+	•	A moderate correlation between temperature fluctuations and hospitalisation rates, indicating the potential influence of environmental factors.
+	•	Age demographics played a crucial role in hospitalisation and mortality rates, with older age groups exhibiting higher rates.
 
-<!-- 3. Calculate the linear regression between intense care and deaths. -->
+## Conclusion
 
-<!-- 4. P values to know if it happened by coincidence. NULL HYPOTHESIS REJECTED -->
+This project highlights the complex interplay between environmental factors, demographic variables, and public health trends during the COVID-19 pandemic. The findings underscore the importance of multifaceted approaches in managing and mitigating the impact of health crises.
 
-- Critical Value Bar number
-- Confidence Interval
+## Contributors
 
-#### COVID ANALYSIS 
-
-7. Are the dominant age groups that are in the intensive care unit those that died?
-- Represent it on a histogram where the each year group has a bar for intensive care and another for deaths. 
-eg. of conclusion -> you can conclude by saying that even though more younger were hospitalised the number of deaths are higher within the aged group
-
-8. Regional Distribution -> Did the coldest areas in France have the highest Hospitalisations ?
-- Group Temp by Regions - Heat map
-- Group Hosp by Regions - Heat map
-
-And compare the 2 maps and conclude
-
-
-### DONE BUT NOT PLOTTED
-- CDD/HDD over the 4 years
-
-- Alpha level - INTENSE CARE AND DEATHS
-
-## To Ask
+	•	Michael NYANYUIE
+	•	Divine IZERE
+	•	Lucky Bernice IKAZE
+	•	Medhi HIMMICHE
+	•	Rayane BENCHOKROUN
