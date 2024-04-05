@@ -62,7 +62,7 @@ Same trend as the previous data
 
 7. Are the dominant age groups that are in the intensive care unit those that died?
 - Represent it on a histogram where the each year group has a bar for intensive care and another for deaths. 
-eg. of conclusion -> you can conclude by saying that even though more younger were hospitalised the number of dates are higher within the aged group
+eg. of conclusion -> you can conclude by saying that even though more younger were hospitalised the number of deaths are higher within the aged group
 
 8. Regional Distribution -> Did the coldest areas in France have the highest Hospitalisations ?
 - Group Temp by Regions - Heat map

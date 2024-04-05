@@ -97,13 +97,6 @@ temp_data <- dbGetQuery(
 
 par(mfrow = c(3, 1)) #3 rows, 1 column
 
-# HIST MIN_TEMP
-hist(
-  temp_data$MIN_TEMP,
-  main = "Histogram of Min Temperatures",
-  xlab = "Min Temperature",
-  col = "skyblue"
-)
 
 # HIST MEAN_TEMP
 hist(
@@ -113,16 +106,9 @@ hist(
   col = "lightgreen"
 )
 
-# HIST MAX_TEMP
-hist(
-  temp_data$MAX_TEMP,
-  main = "Histogram of Max Temperatures",
-  xlab = "Max Temperature",
-  col = "salmon"
-)
-
 ```
-D'après les histograms on voit 
+L'observation des histogrammes révèle une forme de courbe en cloche, indiquant une distribution normale des données. Cette caractéristique suggère que la majorité des observations se concentre autour de la moyenne, validant l'utilisation de méthodes statistiques paramétriques pour notre analyse
+
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE HOSPITALISATION }
 hosp_data <- dbGetQuery(
   connection,
@@ -130,7 +116,7 @@ hosp_data <- dbGetQuery(
   FROM HOSPITALISATIONS"
 )
 
-par(mfrow = c(2, 2)) #2 cloumns 2 rows
+par(mfrow = c(2, 2)) #2 columns 2 rows
 
 # HIST NUM_INTENSE_CARE
 hist(
@@ -164,7 +150,8 @@ hist(
   col = "yellow"
 )
 ```
-L'observation des histogrammes révèle une forme de courbe en cloche, indiquant une distribution normale des données. Cette caractéristique suggère que la majorité des observations se concentre autour de la moyenne, validant l'utilisation de méthodes statistiques paramétriques pour notre analyse.
+
+Les données présentées dans les histogrammes montrent une distribution asymétrique, où les cas de soins intensifs, les décès et les retours à domicile sont concentrés vers les valeurs inférieures de l'axe des abscisses. Cela indique une distribution fortement biaisée à droite, suggérant que la majorité des observations se situent en dessous de la moyenne, avec des valeurs extrêmes qui étirent la queue de la distribution vers des valeurs plus élevées
 
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE POPULATION }
 pop_data <- dbGetQuery(
@@ -175,7 +162,7 @@ pop_data <- dbGetQuery(
 
 # HIST TOTAL POPULATION
 hist(
-  pop_data$NUM_HOSP,
+  pop_data$total,
   main = "Histogram of POPULATION",
   xlab = "POPULATION",
   col = "green"
@@ -189,8 +176,7 @@ hist(
 ## ETUDE DE VARIABLE HOSPITALISATION
 ------------------------------------
 
-## ETUDE DE TAUX DE CAS INTENSIVES POUR LES DIFFERENTES TRANCHES D'AGES
-
+## ETUDE DE TAUX DE CAS INTENSIVES POUR LES DIFFERENTES TRANCHES D'AGES PENDANT LA PANDEMIE
 ```{r GRAPHE DE CAS INTENSIVE PAR TRANCHE D'AGE}
 intense_cases_groups <- dbGetQuery(
   connection,
@@ -201,36 +187,41 @@ intense_cases_groups <- dbGetQuery(
     (SUM(NUM_INTENSE_CARE) / SUM(age60_74)) * 10000 AS INTENSE_RATE_60_74,
     (SUM(NUM_INTENSE_CARE) / SUM(age75_et_plus)) * 10000
     AS INTENSE_RATE_75_Plus,
-    YEAR(DATE_HOSP)
+    YEAR(DATE_HOSP) AS YEAR_
   FROM HOSPITALISATIONS H
   LEFT JOIN PROJET_POPU P
     ON P.codeD = H.DEP_ID
-  WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL
+  WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL AND YEAR(DATE_HOSP) = 2020
   GROUP BY YEAR(DATE_HOSP)
   "
 )
 
-hist_intense_cases_groups <- hist(
-  c(
-    intense_cases_groups$INTENSE_RATE_0_19,
-    intense_cases_groups$INTENSE_RATE_20_39,
-    intense_cases_groups$INTENSE_RATE_40_59,
-    intense_cases_groups$INTENSE_RATE_60_74,
-    intense_cases_groups$INTENSE_RATE_75_Plus
-  ),
-  main = "Cas intensives par tranche d'age",
-  xlab = "Tranche d'Age",
-  ylab = "Nombre de Cas Intensif"
+age_groups = c("0-19", "20-39", "40-59", "60-74", "75+")
+intense_cases_2020 = c(intense_cases_groups$INTENSE_RATE_0_19, intense_cases_groups$INTENSE_RATE_20_39, intense_cases_groups$INTENSE_RATE_40_59, intense_cases_groups$INTENSE_RATE_60_74, intense_cases_groups$INTENSE_RATE_75_Plus)
+
+age_groups = c("0-19", "20-39", "40-59", "60-74", "75+")
+
+barplot(
+  height = intense_cases_2020,
+  names.arg = age_groups,
+  main = "Cas intensifs par tranche d'âge en 2020",
+  args.legend = list(title = "2020 Comparison", x = "topright"),
+  legend = "Intensive Care",
+  xlab = "Tranche d'âge",
+  ylab = "Taux de cas intensifs",
+  col = "skyblue"
 )
 
 ```
-Les résultats indiquent une augmentation significative des taux d'hospitalisation en soins intensifs pour toutes les tranches d'âge entre 2020 et 2021. En particulier, les tranches d'âge les plus affectées sont celles des 60-74 ans et des 75 ans et plus, avec des taux qui passent respectivement de 1,9435 et 3,4163 en 2020 à 2,3469 et 4,1254 en 2021 pour 10 000 habitants. Cette tendance souligne une vulnérabilité accrue des populations âgées face aux conditions nécessitant des soins intensifs, ce qui peut refléter l'impact de la pandémie de COVID-19 ou d'autres facteurs de santé publique affectant ces groupes d'âge spécifiques durant cette période.
+Le graphe indiquent une augmentation notable des taux d'admission en soins intensifs parmi les différents groupes d'âge entre 2020 et 2021. Particulièrement, les groupes d'âge les plus âgés (75 ans et plus) montrent le taux le plus élevé d'admission en soins intensifs, soulignant l'impact disproportionné de la situation sanitaire sur cette tranche d'âge. 
+
+<!-- Cette tendance suggère l'importance d'une attention et d'une protection accrues pour les populations âgées en période de crise sanitaire, en alignement avec les stratégies de santé publique visant à minimiser les risques et à optimiser les soins pour les groupes les plus vulnérables. -->
 
 
-## ETUDES DE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGES. 
+## ETUDES DE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES. 
 La question donc se pose est-ce qu'il y a une relation entre les cas intansifs et le taux d'hospitalisations?
 
-``` {r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGE}
+```{r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGE}
 deaths_groups <- dbGetQuery(
   connection,
   "SELECT
@@ -239,21 +230,109 @@ deaths_groups <- dbGetQuery(
     (SUM(NUM_DEATHS) / SUM(age40_59)) * 10000 AS DEATHS_RATE_40_59,
     (SUM(NUM_DEATHS) / SUM(age60_74)) * 10000 AS DEATHS_RATE_60_74,
     (SUM(NUM_DEATHS) / SUM(age75_et_plus)) * 10000 AS DEATHS_RATE_75_Plus,
-    YEAR(DATE_HOSP)
+    YEAR(DATE_HOSP) AS YEAR_
   FROM HOSPITALISATIONS H
   LEFT JOIN PROJET_POPU P
     ON P.codeD = H.DEP_ID
-  WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL
+  WHERE SEX = 0 AND H.DATE_HOSP IS NOT NULL AND YEAR(DATE_HOSP) = 2020
   GROUP BY YEAR(DATE_HOSP)"
+)
 
-  # ADD GRAPH
+deaths_2020 = c(deaths_groups$DEATHS_RATE_0_19, deaths_groups$DEATHS_RATE_20_39, deaths_groups$DEATHS_RATE_40_59, deaths_groups$DEATHS_RATE_60_74, deaths_groups$DEATHS_RATE_75_Plus)
+
+age_groups = c("0-19", "20-39", "40-59", "60-74", "75+")
+
+barplot(
+  height = deaths_2020,
+  names.arg = age_groups,
+  main = "Taux de mortalité par tranche d'âge en 2020",
+  args.legend = list(title = "2020 Comparison", x = "topright"),
+  legend =  "Deaths",
+  xlab = "Tranche d'âge",
+  ylab = "Taux de mortalité",
+  col = "skyblue"
 )
 ```
-Les données montrent une nette augmentation du taux de décès dans toutes les tranches d'âge entre 2020 et 2021. Les tranches d'âge les plus âgées, 60-74 ans et surtout 75 ans et plus, présentent les augmentations les plus marquées, passant de 18,6426 et 32,7698 en 2020 à 69,0540 et 121,3823 en 2021 pour 10 000 habitants, respectivement. Cette tendance indique un impact significatif sur la mortalité des populations âgées pendant cette période, probablement exacerbé par la pandémie de COVID-19, mettant en évidence la vulnérabilité accrue de ces groupes d'âge face aux conditions critiques de santé.
+En 2020, le groupe le plus touché par les décès est celui des personnes âgées de 75 ans et plus, tandis que le groupe le moins affecté est celui des 0-19 ans. Cette différence souligne la susceptibilité accrue des personnes âgées aux issues graves, nécessitant une analyse plus approfondie pour déterminer si les taux élevés de décès sont directement corrélés aux cas nécessitant des soins intensifs. Comprendre cette corrélation aidera à cibler les interventions et à allouer les ressources de manière plus efficace pour protéger les populations vulnérables.
 
 
-### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
-On aimerais etudier le lien entre le taux de cas intense et le taux de morts.
+### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE
+Cette analyse vise à explorer la relation entre le taux de cas en soins intensifs et le taux de mortalité afin de déterminer si une corrélation directe existe entre ces deux variables. À travers l'utilisation d'histogrammes, nous chercherons à visualiser la distribution des cas en soins intensifs par rapport aux taux de mortalité correspondants, permettant ainsi une compréhension plus profonde des dynamiques de gravité au sein de la population hospitalisée. Cette méthode statistique nous aidera à identifier visuellement les tendances et à soutenir l'analyse quantitative de la corrélation potentielle.
+```{r }
+hist_deaths_intense_0_19 <- barplot(
+  height = rbind(
+    intense_cases_groups$INTENSE_RATE_0_19,
+    deaths_groups$DEATHS_RATE_0_19
+  ),
+  beside = TRUE,
+  names.arg = ("0-19 Age Group"),
+  col = c("blue", "red"),
+  legend = c("Intensive Care", "Deaths"),
+  xlab = "Age Group",
+  ylab = "rates per 10K",
+  main = "Comparison of Intensive Care Cases and Deaths for Age Group 0-19 in 2020"
+)
+
+hist_deaths_intense_20_39 <- barplot(
+  height = rbind(
+    intense_cases_groups$INTENSE_RATE_20_39,
+    deaths_groups$DEATHS_RATE_20_39
+  ),
+  beside = TRUE,
+  names.arg = ("20-39 Age Group"),
+  col = c("blue", "red"),
+  legend = c("Intensive Care", "Deaths"),
+  xlab = "Age Group",
+  ylab = "rates per 10K",
+  main = "Comparison of Intensive Care Cases and Deaths for Age Group 20-39 in 2020"
+)
+
+hist_deaths_intense_40_59 <- barplot(
+  height = rbind(
+    intense_cases_groups$INTENSE_RATE_40_59,
+    deaths_groups$DEATHS_RATE_40_59
+  ),
+  beside = TRUE,
+  names.arg = ("40-59 Age Group"),
+  col = c("blue", "red"),
+  legend = c("Intensive Care", "Deaths"),
+  xlab = "Age Group",
+  ylab = "rates per 10K",
+  main = "Comparison of Intensive Care Cases and Deaths for Age Group 40-59 in 2020"
+)
+
+hist_deaths_intense_60_74 <- barplot(
+  height = rbind(
+    intense_cases_groups$INTENSE_RATE_60_74,
+    deaths_groups$DEATHS_RATE_60_74
+  ),
+  beside = TRUE,
+  names.arg = ("60-74 Age Group"),
+  col = c("blue", "red"),
+  legend = c("Intensive Care", "Deaths"),
+  xlab = "Age Group",
+  ylab = "rates per 10K",
+  main = "Comparison of Intensive Care Cases and Deaths for Age Group 60-74 in 2020"
+)
+
+hist_deaths_intense_75_plus <- barplot(
+  height = rbind(
+    intense_cases_groups$INTENSE_RATE_75_Plus,
+    deaths_groups$DEATHS_RATE_75_Plus
+  ),
+  beside = TRUE,
+  names.arg = ("75+ Age Group"),
+  col = c("blue", "red"),
+  legend = c("Intensive Care", "Deaths"),
+  xlab = "Age Group",
+  ylab = "rates per 10K",
+  main = "Comparison of Intensive Care Cases and Deaths for Age Group 75+ in 2020"
+)
+
+```
+En 2020, le groupe d'âge des 75 ans et plus a enregistré le taux le plus élevé de cas en soins intensifs (3.4163) ainsi que le taux le plus élevé de décès (32.7698), ce qui souligne une vulnérabilité marquée chez les personnes âgées face à la COVID-19. Le groupe d'âge 60-74 ans montre également un taux plus élevé en soins intensifs (1.9435) comparé aux autres groupes plus jeunes, et un taux de décès (18.6426) qui suit la même tendance. En comparaison, les groupes d'âge plus jeunes ont montré des taux nettement inférieurs, tant en soins intensifs qu'en mortalité, avec le groupe d'âge 0-19 ans ayant les taux les plus bas. Ces observations peuvent indiquer une corrélation entre l'âge, la gravité des cas de COVID-19 nécessitant des soins intensifs et le risque de décès.
+
+
 
 ```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
 intense_case_deaths_data <- dbGetQuery(
@@ -275,11 +354,14 @@ cor_intense_case_deaths <- cor(
   as.numeric(intense_case_deaths_data$DEATHS_10K)
 )
 
-print("Correlation: ", cor_intense_case_deaths)
+print(paste("Correlation: ", cor_intense_case_deaths))
+
+intense_case_deaths_data$DATE_HOSP_NUM <- as.numeric(as.Date(intense_case_deaths_data$DATE_HOSP, format = "%Y-%m-%d"))
+
 
 plot(
-  intense_case_deaths$INTENSE_CARE_10K,
-  intense_case_deaths$DEATHS_10K,
+  intense_case_deaths_data$INTENSE_CARE_10K,
+  intense_case_deaths_data$DEATHS_10K,
   col = "blue",
   xlab = "Intensive Care Rate per 10K",
   ylab = "Death Rate per 10K",
@@ -297,15 +379,10 @@ abline(
   col = "red"
 )
 
-lines(
-  cor_intense_case_deaths$DATE_HOSP,
-  cor_intense_case_deaths$DEATHS_10K,
-  col = "red"
-)
 
 legend(
   "topright",
-  legend = paste("Correlation: ", round(correlation, 2)),
+  legend = paste("Correlation: ", round(cor_intense_case_deaths, 2)),
   bty = "n"
 )
 ```
@@ -393,8 +470,14 @@ hosp_rate_10K_covid_horscovid <- dbGetQuery(
 
 par(mar = c(5, 8, 4, 2) + 0.3)
 
-positions_in_covid <- seq_along(hosp_rate_10K_covid_horscovid$SEASONS)
-positions_outside_covid <- positions_in_covid + 0.3
+data_matrix <- matrix(
+  c(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
+    hosp_rate_10K_covid_horscovid$HOSP_RATE_OUTSIDE_COVID),
+  nrow = length(hosp_rate_10K_covid_horscovid$SEASONS), # Assuming this matches the number of seasons
+  byrow = FALSE, # Fill matrix by columns
+  dimnames = list(hosp_rate_10K_covid_horscovid$SEASONS, c("During COVID", "Outside COVID"))
+)
+
 
 barplot(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
   names.arg = hosp_rate_10K_covid_horscovid$SEASONS,
@@ -407,18 +490,22 @@ barplot(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
   ) * 1.2),
   xlab = "Seasons",
   ylab = "Hospitalization Rate per 10K",
-  main = "Comparison of Hospitalization Rates During and Outside COVID Period by Season",
+  main = "Comparison of Hospitalization Rates During and 
+  Outside COVID Period by Season",
   cex.names = 0.8,
   las = 2,
   space = c(0, 0.5)
 )
 
-barplot(hosp_rate_10K_covid_horscovid$HOSP_RATE_OUTSIDE_COVID,
+barplot(data_matrix,
   beside = TRUE,
-  col = "red",
-  add = TRUE,
-  space = c(4, 0.5),
-  positions = positions_outside_covid
+  col = c("blue", "red"),
+  ylim = c(0, max(data_matrix) * 1.2),
+  xlab = "Seasons",
+  ylab = "Hospitalization Rate per 10K",
+  main = "Comparison of Hospitalization Rates During and Outside COVID Period by Season",
+  cex.names = 0.8,
+  las = 2
 )
 
 legend("topright",
@@ -464,7 +551,7 @@ cdd_hdd_data <- dbGetQuery(connection, cdd_hdd_query)
 
 cdd_hdd_data$YEARS <- as.factor(cdd_hdd_data$YEARS)
 
-plot(cdd_data$YEARS, cdd_hdd_data$`CDD/HDD INDEX`,
+plot(cdd_hdd_data$YEARS, cdd_hdd_data$`CDD/HDD INDEX`,
   type = "b",
   pch = 19,
   lty = 1,
@@ -486,7 +573,7 @@ temps_hosp_data <- dbGetQuery(
   connection,
   "SELECT 
     MEAN_TEMP,
-    ((NUM_HOSP/total) * 10000) AS HOSP_RATE_10K,
+    ((NUM_HOSP/total) * 10000) AS HOSP_RATE_10K
   FROM TEMPERATURES T
   RIGHT JOIN HOSPITALISATIONS H
     ON H.DEP_ID = T.DEP_ID AND H.DATE_HOSP = T.DATE_TEMP
@@ -518,7 +605,7 @@ plot(
   pch = 20
 )
 
-abline(linear_model, col = "red")
+abline(lm_hosp_temp, col = "red")
 ```
 J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d’hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.21, il existe une faible relation négative entre la température et le taux d’hospitalisation. Cela suggère une légère tendance à la baisse des hospitalisations avec l’augmentation des températures. Toutefois, cette relation est faible et indique que d’autres facteurs pourraient jouer un rôle plus significatif dans les taux d’hospitalisation. Cette analyse met en lumière la complexité des facteurs affectant les hospitalisations.
 
@@ -530,9 +617,11 @@ Nous cherchons à comprendre et à prédire l'influence de la température sur l
 
 summary_hosp_temp <- summary(lm_hosp_temp)
 
-print(paste("Valeur de P: ", summary_hosp_temp$coefficients["MEAN_TEMP", 4]))
-```
 
+
+print(summary_hosp_temp)
+```
+La valeur p obtenue pour le coefficient associé à la température moyenne (MEAN_TEMP) est inférieure à 2e-16, ce qui est extrêmement petit. Cela indique que la relation entre la température moyenne et le taux d'hospitalisation est statistiquement significative. En d'autres termes, nous pouvons rejeter l'hypothèse nulle selon laquelle il n'y a pas de relation entre ces deux variables.
 
 # CONCLUSION
 -------------
