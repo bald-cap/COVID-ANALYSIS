@@ -196,10 +196,16 @@ intense_cases_groups <- dbGetQuery(
   "
 )
 
-age_groups = c("0-19", "20-39", "40-59", "60-74", "75+")
-intense_cases_2020 = c(intense_cases_groups$INTENSE_RATE_0_19, intense_cases_groups$INTENSE_RATE_20_39, intense_cases_groups$INTENSE_RATE_40_59, intense_cases_groups$INTENSE_RATE_60_74, intense_cases_groups$INTENSE_RATE_75_Plus)
+age_groups <- c("0-19", "20-39", "40-59", "60-74", "75+")
+intense_cases_2020 <- c(
+  intense_cases_groups$INTENSE_RATE_0_19,
+  intense_cases_groups$INTENSE_RATE_20_39,
+  intense_cases_groups$INTENSE_RATE_40_59,
+  intense_cases_groups$INTENSE_RATE_60_74,
+  intense_cases_groups$INTENSE_RATE_75_Plus
+)
 
-age_groups = c("0-19", "20-39", "40-59", "60-74", "75+")
+age_groups <- c("0-19", "20-39", "40-59", "60-74", "75+")
 
 barplot(
   height = intense_cases_2020,
@@ -238,7 +244,13 @@ deaths_groups <- dbGetQuery(
   GROUP BY YEAR(DATE_HOSP)"
 )
 
-deaths_2020 = c(deaths_groups$DEATHS_RATE_0_19, deaths_groups$DEATHS_RATE_20_39, deaths_groups$DEATHS_RATE_40_59, deaths_groups$DEATHS_RATE_60_74, deaths_groups$DEATHS_RATE_75_Plus)
+deaths_2020 <- c(
+  deaths_groups$DEATHS_RATE_0_19,
+  deaths_groups$DEATHS_RATE_20_39,
+  deaths_groups$DEATHS_RATE_40_59,
+  deaths_groups$DEATHS_RATE_60_74,
+  deaths_groups$DEATHS_RATE_75_Plus
+)
 
 age_groups = c("0-19", "20-39", "40-59", "60-74", "75+")
 
@@ -356,7 +368,12 @@ cor_intense_case_deaths <- cor(
 
 print(paste("Correlation: ", cor_intense_case_deaths))
 
-intense_case_deaths_data$DATE_HOSP_NUM <- as.numeric(as.Date(intense_case_deaths_data$DATE_HOSP, format = "%Y-%m-%d"))
+intense_case_deaths_data$DATE_HOSP_NUM <- as.numeric(
+  as.Date(
+    intense_case_deaths_data$DATE_HOSP,
+    format = "%Y-%m-%d"
+  )
+)
 
 
 plot(
@@ -473,9 +490,12 @@ par(mar = c(5, 8, 4, 2) + 0.3)
 data_matrix <- matrix(
   c(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
     hosp_rate_10K_covid_horscovid$HOSP_RATE_OUTSIDE_COVID),
-  nrow = length(hosp_rate_10K_covid_horscovid$SEASONS), # Assuming this matches the number of seasons
-  byrow = FALSE, # Fill matrix by columns
-  dimnames = list(hosp_rate_10K_covid_horscovid$SEASONS, c("During COVID", "Outside COVID"))
+  nrow = length(hosp_rate_10K_covid_horscovid$SEASONS),
+  byrow = FALSE,
+  dimnames = list(
+    hosp_rate_10K_covid_horscovid$SEASONS,
+    c("During COVID", "Outside COVID")
+  )
 )
 
 
