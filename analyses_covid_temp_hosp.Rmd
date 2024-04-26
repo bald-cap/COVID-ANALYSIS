@@ -35,7 +35,7 @@ Notre étude se fixe les objectifs suivants :
 # ANALYSES
 ------------
 ## ACCES A LA BASE DE DONNÉE EN R
-```{r accès a la base de données via RMariaDB}
+```{r ACCEES A LA BASE DE DONNEES VIA MARIADB, echo=TRUE}
 library(RMariaDB)
 
 password <- rstudioapi::askForPassword("UT2J Password")
@@ -51,7 +51,7 @@ connection <- dbConnect(
 
 ## CREATION DE BASE DE DONNÉES.
 -------------------------------
-```{r BASE DE DONNEES en SQL}
+```{r BASE DE DONNEES en SQL, echo=TRUE}
 ### TEMPERATURES TABLE
 # CREATE TABLE TEMPERATURES(
 #   DATE_TEMP DATE,
@@ -87,7 +87,7 @@ connection <- dbConnect(
 ## VÉRIFICATION DE LA DISTRIBUTION DES DONNÉES
 Nous explorons la distribution de nos données pour déterminer si elles suivent une distribution normale, ce qui validerait l'utilisation de méthodes statistiques paramétriques.
 
-```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE TEMPERATURE }
+```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE TEMPERATURE, echo=TRUE }
 temp_data <- dbGetQuery(
   connection,
   "SELECT MIN_TEMP, MEAN_TEMP, MAX_TEMP
@@ -108,7 +108,7 @@ hist(
 ```
 L'observation des histogrammes révèle une forme de courbe en cloche, indiquant une distribution normale des données. Cette caractéristique suggère que la majorité des observations se concentre autour de la moyenne, validant l'utilisation de méthodes statistiques paramétriques pour notre analyse.
 
-```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE HOSPITALISATION }
+```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE HOSPITALISATION, echo=TRUE}
 hosp_data <- dbGetQuery(
   connection,
   "SELECT  NUM_INTENSE_CARE, NUM_DEATHS, NUM_RETURN_HOME, NUM_HOSP
@@ -152,7 +152,7 @@ hist(
 
 Les données présentées dans les histogrammes montrent une distribution asymétrique, où les cas de soins intensifs, les décès et les retours à domicile sont concentrés vers les valeurs inférieures de l'axe des abscisses. Cela indique une distribution fortement biaisée à droite, suggérant que la majorité des observations se situent en dessous de la moyenne, avec des valeurs extrêmes qui étirent la queue de la distribution vers des valeurs plus élevées.
 
-```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE POPULATION }
+```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE POPULATION, echo=TRUE}
 pop_data <- dbGetQuery(
   connection,
   "SELECT total
@@ -179,7 +179,7 @@ Nous analysons les données d'hospitalisation pour déduire les tendances.
 
 ## ETUDE DE TAUX DE CAS INTENSIVES POUR LES DIFFERENTES TRANCHES D'AGES PENDANT LA PANDEMIE
 Dans le cadre de cette étude, nous cherchons à identifier les parties de la population les plus impactées par la COVID-19. Pour ce faire, nous analyserons les taux de cas en soins intensifs répartis par tranche d'âge. Ces données nous permettront de construire un histogramme qui mettra en évidence les tranches d'âge les plus affectées.
-```{r GRAPHE DE CAS INTENSIFS PAR TRANCHE D'AGE}
+```{r GRAPHE DE CAS INTENSIFS PAR TRANCHE D AGE, echo=TRUE}
 intense_cases_groups <- dbGetQuery(
   connection,
   "SELECT
@@ -226,7 +226,7 @@ Le graphe indiquent une augmentation notable des taux d'admission en soins inten
 ## ETUDES DE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES. 
 Pour répondre à la question posée précédemment, nous utiliserons les taux de mortalité calculés par tranche d'âge. Grâce à ces résultats, nous pourrons déterminer quelle tranche d'âge a subi le plus de décès et en même temps voir si la COVID-19 a eu une influence significative sur le taux de mortalité.
 
-```{r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGE}
+```{r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D AGE, echo=TRUE}
 deaths_groups <- dbGetQuery(
   connection,
   "SELECT
@@ -269,7 +269,7 @@ En 2020, le groupe le plus touché par les décès est celui des personnes âgé
 
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSIFS ET LE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES EN 2020
 Cette analyse vise à explorer la relation entre le taux de cas en soins intensifs et le taux de mortalité afin de déterminer si une corrélation directe existe entre ces deux variables. À travers l'utilisation d'histogrammes, nous chercherons à visualiser la distribution des cas en soins intensifs par rapport aux taux de mortalité correspondants, permettant ainsi une compréhension plus profonde des dynamiques de gravité au sein de la population hospitalisée. Cette méthode statistique nous aidera à identifier visuellement les tendances et à soutenir l'analyse quantitative de la corrélation potentielle.
-```{r HISTOGRAMMES DÉMONTRANT LA RELATION ENTRE LES TAUX DE CAS INTENSIFS ET LES TAUX DE MORTALITÉS}
+```{r HISTOGRAMMES DÉMONTRANT LA RELATION ENTRE LES TAUX DE CAS INTENSIFS ET LES TAUX DE MORTALITÉS, echo=TRUE}
 hist_deaths_intense_0_19 <- barplot(
   height = rbind(
     intense_cases_groups$INTENSE_RATE_0_19,
@@ -347,8 +347,9 @@ En 2020, le groupe d'âge des 75 ans et plus a enregistré le taux le plus élev
 ### ETUDE COMPARATIVE DE TEMPERATURES MOYENNES ET TAUX DE SOINS INTENSIFS PAR REGION
 Maintenant que nous avons une vue plus globale concernant le pays par tranches d'âge, pour affiner nos recherches, nous devons déterminer si la température était un facteur majeur influençant les soins intensifs. Pour cela, nous comparerons la région nord de la France, connue pour ses températures basses, avec la région sud, où les températures sont généralement plus élevées, en créant une carte thermique pour mieux visualiser les valeurs. Grâce à cette comparaison, nous pourrons conclure sur l'existence d'un lien entre la température et les taux de mortalité.
 
-```{r CARTE THERMIQUE DES TEMPÉRATURES MOYENNES ET DES TAUX DE SOINS INTENSIFS RÉGIONAUX}
-library(pheatmap)
+```{r CARTE THERMIQUE DES TEMPÉRATURES MOYENNES ET DES TAUX DE SOINS INTENSIFS RÉGIONAUX, echo=TRUE}
+library(ggplot2)
+library(reshape2)
 
 temps_per_reg <- dbGetQuery(
   connection,
@@ -358,47 +359,46 @@ temps_per_reg <- dbGetQuery(
         WHEN R.codeR IN (75, 76, 84, 93, 94) THEN 'SOUTH'
     END AS REGS,
     AVG(T.MEAN_TEMP) AS AVG_TEMPS,
-    SUM(NUM_INTENSE_CARE)/ SUM(total) * 10000 AS INTENSE_CARE_RATE
-  FROM PROJET_DEP D
-  INNER JOIN PROJET_REG R
-  ON R.codeR = D.codeR
-  INNER JOIN PROJET_POPU P
-  ON P.codeD = D.codeD
-  INNER JOIN TEMPERATURES T
-  ON T.DEP_ID = D.codeD
-  INNER JOIN HOSPITALISATIONS H
-  ON H.DEP_ID = T.DEP_ID
-  WHERE YEAR(T.DATE_TEMP) IN (2020)
-  GROUP BY REGS"
+    SUM(H.NUM_INTENSE_CARE) / SUM(P.total) * 10000 AS INTENSE_CARE_RATE
+  FROM 
+      PROJET_REG R
+  INNER JOIN PROJET_DEP D ON R.codeR = D.codeR
+  INNER JOIN (
+      SELECT DEP_ID, AVG(MEAN_TEMP) AS MEAN_TEMP
+      FROM TEMPERATURES
+      WHERE YEAR(DATE_TEMP) = 2020
+      GROUP BY DEP_ID
+  ) T ON T.DEP_ID = D.codeD
+  INNER JOIN (
+      SELECT DEP_ID, SUM(NUM_INTENSE_CARE) AS NUM_INTENSE_CARE
+      FROM HOSPITALISATIONS
+      GROUP BY DEP_ID
+  ) H ON H.DEP_ID = D.codeD
+  INNER JOIN PROJET_POPU P ON P.codeD = D.codeD
+  GROUP BY REGS;"
 )
 
-data_matrix <- as.matrix(
-  temp_per_reg[,
-    c("AVG_TEMPS", "INTENSE_CARE_RATE")
-  ]
-)
+print(temps_per_reg)
 
-rownames(data_matrix) <- temps_per_reg$REGS
+data_long <- melt(temps_per_reg, id.vars = "REGS")
+
+heatmap <- ggplot(data_long, aes(x = REGS, y = variable, fill = value)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = median(data_long$value, na.rm = TRUE)) +
+  labs(title = "Heatmap of Average Temperatures and Intensive Care Rates by Region", x = "Region", y = "Metric", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
-pheatmap(data_matrix,
-  scale = "row",
-  clustering_distance_rows = "euclidean",
-  clustering_distance_cols = "euclidean",
-  color = colorRampPalette(
-    c("blue", "white", "red")
-  )(255),
-  main = "Heatmap of Average Temperatures and Intensive Care Rates by Region",
-  annotation_row = data.frame(Region = temps_per_reg$REGS)
-)
+print(heatmap)
 
 ```
-Sur la base des données représentées sur la carte thermique, on peut conclure que la région Sud de la France présente une température moyenne plus élevée (14.19°C) par rapport à la région Nord (12.90°C). Cependant, malgré des températures plus clémentes, le taux de soins intensifs dans la région Sud est inférieur (0.2213 pour 10 000 habitants) à celui de la région Nord (0.2580 pour 10 000 habitants). 
+Cette analyse thermographique illustre clairement les variations climatiques et de santé entre le nord et le sud de la France au cours de l'année 2020. Avec une température moyenne plus élevée de 14.19°C, la région Sud pourrait théoriquement favoriser un meilleur confort de vie. Néanmoins, contrairement à ce que l'on pourrait attendre, cette analyse révèle que la région Sud enregistre un taux de soins intensifs inférieur, soit 0.2213 pour 10 000 habitants, comparativement à la région Nord qui présente un taux de 0.2580 pour 10 000 habitants, malgré une température moyenne légèrement inférieure de 12.90°C. 
 
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE SUR TOUTE LA POPULATION
 Nous avons déjà établi une corrélation entre les taux de cas intensifs et les taux de mortalité par tranches d'âge, mais il serait plus intéressant d'examiner ces taux à l'échelle de toute la population. Cela nous aidera à mieux visualiser les changements démographiques à une échelle plus large.
 
-```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
+```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS, echo=TRUE}
 intense_case_deaths_data <- dbGetQuery(
   connection,
   "SELECT
@@ -460,7 +460,7 @@ Un coefficient de corrélation de 0.55 indique une relation linéaire positive m
 
 #### TEST DE STUDENT | ETUDE DE REGRESSION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
 Nous allons maintenant réaliser un test de Student pour vérifier si nous pouvons rejeter l'hypothèse nulle concernant le coefficient de corrélation, tout en confirmant que les conclusions statistiques reflètent bien les déductions tirées.
-```{r T TEST}
+```{r T TEST, echo=TRUE}
 
 summary_intense_cases_deaths <- summary(lm_intense_case_deaths)
 
@@ -473,7 +473,7 @@ La valeur de p obtenue (0.507) nous permet de rejeter l'hypothèse nulle, confir
 ### TAUX D'HOSPITALISATIONS PAR SAISON
 Pour visualiser mieux l'activiter saisonial des hopitaux on aimerais étudier le taux d'hospitalisations en fonctions des saisons.
 
-```{r TAUX D'HOSPITALISATION PAR SAISON}
+```{r TAUX D HOSPITALISATION PAR SAISON, echo=TRUE}
 hosp_rate_10K <- dbGetQuery(
   connection,
   "SELECT
@@ -498,7 +498,7 @@ On remarque alors un fort taux d'hospitalisation en Hiver(2.364) et les saisons 
 
 ### ETUDE D'HOSPITALISATIONS PENDANT LA PANDEMIE (2019-2020) ET HORS PERIODE COVID (2018-2021)
 Pour cela, nous allons étudier le taux d'hospitalisation pendant la période de COVID et hors période COVID pour voir s'il y a eu plus de cas pendant la pandémie ou en dehors de celle-ci.
-```{r GRAPHE COMPARAISON DES HOSPITALISATIONS 2019-2020 ET 2018-2021}
+```{r GRAPHE COMPARAISON DES HOSPITALISATIONS 2019-2020 ET 2018-2021, echo=TRUE}
 hosp_rate_10K_covid_horscovid <- dbGetQuery(
   connection,
   "WITH COVID_PERIOD AS(
@@ -551,24 +551,6 @@ data_matrix <- matrix(
 )
 
 
-barplot(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
-  names.arg = hosp_rate_10K_covid_horscovid$SEASONS,
-  beside = TRUE,
-  col = "blue",
-  xlim = c(0, max(positions_outside_covid) + 1),
-  ylim = c(0, max(
-    c(hosp_rate_10K_covid_horscovid$HOSP_RATE_IN_COVID,
-      hosp_rate_10K_covid_horscovid$HOSP_RATE_OUTSIDE_COVID)
-  ) * 1.2),
-  xlab = "Seasons",
-  ylab = "Hospitalization Rate per 10K",
-  main = "Comparison of Hospitalization Rates During and 
-  Outside COVID Period by Season",
-  cex.names = 0.8,
-  las = 2,
-  space = c(0, 0.5)
-)
-
 barplot(data_matrix,
   beside = TRUE,
   col = c("blue", "red"),
@@ -594,7 +576,7 @@ D'apres les taux rélévés de cet examen, il est observé que le printemps a co
 ### Indice CDD/HDD
 Nous allons maintenant étudier la température et, plus précisément, l'indice CDD/HDD pour appuyer la conclusion précédente. L'indice CDD/HDD indique si un bâtiment a besoin d'énergie pour le chauffage ou le refroidissement sur une période donnée. Cette analyse sera représentée graphiquement ci-dessous.
 
-```{r GRAPH DE l'INDICE CDD/HDD}
+```{r GRAPH DE L INDICE CDD/HDD, echo=TRUE}
 cdd_hdd_query <- "
 WITH HEATING_DAYS AS(
   SELECT SUM(18 - MEAN_TEMP) AS HDD, YEAR(DATE_TEMP) AS YEARS
@@ -641,7 +623,7 @@ Les indices CDD/HDD de 2018 à 2021 reflète partiellement la corrélation faibl
 ----------------------------------
 ### COEFFICIENT DE CORRELATION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
 Nous allons étudier les taux d'hospitalisations et les températures pour examiner la relation entre ces deux variables.
-```{r GRAPH DE OEFFICIENT DE CORRELATION (TEMP vs TAUX HOSP) pressure, echo=FALSE}
+```{r GRAPH DE OEFFICIENT DE CORRELATION (TEMP vs TAUX HOSP) pressure, echo=TRUE}
 temps_hosp_data <- dbGetQuery(
   connection,
   "SELECT 
@@ -686,7 +668,7 @@ Nous avons utilisé 10 000 habitants comme référence pour standardiser le taux
 ### ANALYSE DE REGRESSION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
 Nous cherchons à comprendre et à prédire l'influence de la température sur le taux d'hospitalisations. À travers une analyse de régression, nous établirons un modèle mathématique qui nous permettra de déterminer si des variations de température peuvent être associées à une augmentation ou une diminution du nombre d'hospitalisations.
 
-```{r TEST DE T | LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS}
+```{r TEST DE T | LA TEMPERATURE ET LE TAUX D HOSPITALISATIONS, echo=TRUE}
 
 summary_hosp_temp <- summary(lm_hosp_temp)
 
@@ -703,6 +685,6 @@ En somme, cette étude a mis en évidence des liens potentiels entre les tempér
 
 ## DECONNEXION
 Nous déconnectons de la base de données en signe de bonne pratique.
-```{r SIGNING OUT}
-dbDisconnect(connection)
+```{r SIGNING OUT, echo=TRUE}
+#dbDisconnect(connection)
 ```
