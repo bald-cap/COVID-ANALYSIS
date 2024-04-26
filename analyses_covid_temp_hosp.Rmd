@@ -22,15 +22,14 @@ Cette analyse se penche sur la relation complexe entre les données d’hospital
 
 
 ## OBJECTIFS
----------------
-Nos objectifs sont multiples :
+Notre étude se fixe les objectifs suivants :
 
-- **Décrypter les Tendances d’Hospitalisation** : Analyser les données d’hospitalisation pour dégager des insights sur les tendances saisonnières et leur potentiel impact sur la gestion des crises sanitaires.
-- **Évaluer l’Influence Climatique** : Investiguer les effets des variations de température sur les taux d’hospitalisation, explorant ainsi la corrélation entre la météo et la santé publique en période de pandémie.
-- **Lier Soins Intensifs et Issues Mortelles** : Étudier la relation entre le nombre de patients en soins intensifs et le taux de mortalité pour évaluer l’impact des cas sévères sur les issues fatales.
-- **Comprendre les Modèles Saisonniers** : Identifier les saisons à risque accru d’hospitalisation et de mortalité, soulignant l’importance du calendrier dans la lutte contre la pandémie.
-- **Mobiliser des Outils Statistiques Pertinents** : Appliquer des analyses statistiques rigoureuses, comme le coefficient de corrélation de Pearson et l’analyse de régression linéaire, pour interpréter fidèlement les données recueillies.
-- **Prédire via la Régression Linéaire** : Utiliser la régression linéaire pour anticiper l’effet des températures sur les hospitalisations, enrichissant notre étude d’une dimension prédictive.
+- **Analyser les Tendances d’Hospitalisation** : Examiner les données d’hospitalisation pour extraire des tendances, notamment saisonnières, et comprendre leur influence sur la gestion des crises sanitaires.
+- **Évaluer l'Impact des Variations Climatiques** : Étudier l'influence des changements de température sur les taux d'hospitalisation, afin d'établir une possible corrélation entre les conditions météorologiques et la santé publique en période de pandémie.
+- **Examiner le Lien entre Soins Intensifs et Mortalité** : Explorer la relation entre le nombre de patients en soins intensifs et le taux de mortalité, afin d'évaluer comment les cas graves influencent les issues fatales.
+- **Identifier les Modèles Saisonniers** : Détecter les périodes à risque accru d’hospitalisation et de mortalité, pour mettre en évidence l’importance de la saisonnalité dans la réponse aux crises sanitaires.
+- **Utiliser des Méthodes Statistiques Appropriées** : Appliquer des techniques d'analyse statistique rigoureuses, telles que le coefficient de corrélation de Pearson et la régression linéaire, pour une interprétation précise des données.
+- **Anticiper l'Impact des Températures sur les Hospitalisations par Régression Linéaire** : Employer la régression linéaire pour prévoir les effets des variations de température sur les taux d’hospitalisation, ajoutant ainsi une composante prédictive à notre étude.
 
 
 # ANALYSES
@@ -86,7 +85,7 @@ connection <- dbConnect(
 
 
 ## VÉRIFICATION DE LA DISTRIBUTION DES DONNÉES
-Nous allons d'abord voir si les données son distribué normalement ou non.
+Nous explorons la distribution de nos données pour déterminer si elles suivent une distribution normale, ce qui validerait l'utilisation de méthodes statistiques paramétriques.
 
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE TEMPERATURE }
 temp_data <- dbGetQuery(
@@ -175,9 +174,11 @@ hist(
 
 ## ETUDE DE VARIABLE HOSPITALISATION
 ------------------------------------
+Nous analysons les données d'hospitalisation pour déduire les tendances.
+
 
 ## ETUDE DE TAUX DE CAS INTENSIVES POUR LES DIFFERENTES TRANCHES D'AGES PENDANT LA PANDEMIE
-Pour cette étude on devraient connaitre quel partie de la population a été le plus impacté par le covid-19. Pour cela on doit se servir des taux des soins intensifs calculés par tranche d'âge, et grâce à ces données on pourra construire un histogramme clarifiant les tranches d'âges les plus impactés.
+Dans le cadre de cette étude, nous cherchons à identifier les parties de la population les plus impactées par la COVID-19. Pour ce faire, nous analyserons les taux de cas en soins intensifs répartis par tranche d'âge. Ces données nous permettront de construire un histogramme qui mettra en évidence les tranches d'âge les plus affectées.
 ```{r GRAPHE DE CAS INTENSIFS PAR TRANCHE D'AGE}
 intense_cases_groups <- dbGetQuery(
   connection,
@@ -222,11 +223,8 @@ barplot(
 ```
 Le graphe indiquent une augmentation notable des taux d'admission en soins intensifs parmi les différents groupes d'âge entre 2020 et 2021. Particulièrement, les groupes d'âge les plus âgés (75 ans et plus) montrent le taux le plus élevé d'admission en soins intensifs, soulignant l'impact disproportionné de la situation sanitaire sur cette tranche d'âge. La question donc se pose est-ce qu'il y a une relation entre les cas intensifs et le taux de morts?
 
-<!-- Cette tendance suggère l'importance d'une attention et d'une protection accrues pour les populations âgées en période de crise sanitaire, en alignement avec les stratégies de santé publique visant à minimiser les risques et à optimiser les soins pour les groupes les plus vulnérables. -->
-
-
 ## ETUDES DE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES. 
-Pour Répondre à la question poser précédemment on vas utiliser les taux de morts calculer par tranches d'âges. Grâce à ce resultat on pourra savoir quel tranche d'âge qui a subit le plus de décès et en même temps de voir si le covid-19 à eu une grande influence sur le taux de mort.
+Pour répondre à la question posée précédemment, nous utiliserons les taux de mortalité calculés par tranche d'âge. Grâce à ces résultats, nous pourrons déterminer quelle tranche d'âge a subi le plus de décès et en même temps voir si la COVID-19 a eu une influence significative sur le taux de mortalité.
 
 ```{r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGE}
 deaths_groups <- dbGetQuery(
@@ -347,7 +345,7 @@ En 2020, le groupe d'âge des 75 ans et plus a enregistré le taux le plus élev
 
 
 ### ETUDE COMPARATIVE DE TEMPERATURES MOYENNES ET TAUX DE SOINS INTENSIFS PAR REGION
-Maintenant qu'on a une vu plus globale dans ce qui concerne le pays par tranches d'âges, pour clarifier plus nos recherches on doit savoir si la temperatures était un facteur majeur qui influe sur les soins intensif. Pour ça en comparera le coté NORD de la france connue pour ces températures basses et coté SUD qui est le cas contraire, en créant une carte thermique pour mieux visualier les valeurs. Grâce â cette comparaison on pourra conclure sur le lien entre température et décès.
+Maintenant que nous avons une vue plus globale concernant le pays par tranches d'âge, pour affiner nos recherches, nous devons déterminer si la température était un facteur majeur influençant les soins intensifs. Pour cela, nous comparerons la région nord de la France, connue pour ses températures basses, avec la région sud, où les températures sont généralement plus élevées, en créant une carte thermique pour mieux visualiser les valeurs. Grâce à cette comparaison, nous pourrons conclure sur l'existence d'un lien entre la température et les taux de mortalité.
 
 ```{r CARTE THERMIQUE DES TEMPÉRATURES MOYENNES ET DES TAUX DE SOINS INTENSIFS RÉGIONAUX}
 library(pheatmap)
@@ -375,7 +373,7 @@ temps_per_reg <- dbGetQuery(
 )
 
 data_matrix <- as.matrix(
-  temps_per_reg[,
+  temp_per_reg[,
     c("AVG_TEMPS", "INTENSE_CARE_RATE")
   ]
 )
@@ -398,7 +396,7 @@ pheatmap(data_matrix,
 Sur la base des données représentées sur la carte thermique, on peut conclure que la région Sud de la France présente une température moyenne plus élevée (14.19°C) par rapport à la région Nord (12.90°C). Cependant, malgré des températures plus clémentes, le taux de soins intensifs dans la région Sud est inférieur (0.2213 pour 10 000 habitants) à celui de la région Nord (0.2580 pour 10 000 habitants). 
 
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE SUR TOUTE LA POPULATION
-On a pu conclure la correlation entre les taux de cas intenses et les taux de mortalites par tranches d'âges, mais sa sera plus intéressant de voir coté population qu'est ce ça donne. ça aidera mieux visualiser les changements démographique à une échelle plus grande.
+Nous avons déjà établi une corrélation entre les taux de cas intensifs et les taux de mortalité par tranches d'âge, mais il serait plus intéressant d'examiner ces taux à l'échelle de toute la population. Cela nous aidera à mieux visualiser les changements démographiques à une échelle plus large.
 
 ```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
 intense_case_deaths_data <- dbGetQuery(
@@ -461,7 +459,7 @@ Un coefficient de corrélation de 0.55 indique une relation linéaire positive m
 
 
 #### TEST DE STUDENT | ETUDE DE REGRESSION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
-Nous allons maintenant réaliser un test de Student pour vérifier si nous pouvons rejeter l'hypothèse nulle concernant le coefficient de corrélation tout en confirmant ce que les conclusions statistiques sont bien refletent les conclusions deduites.
+Nous allons maintenant réaliser un test de Student pour vérifier si nous pouvons rejeter l'hypothèse nulle concernant le coefficient de corrélation, tout en confirmant que les conclusions statistiques reflètent bien les déductions tirées.
 ```{r T TEST}
 
 summary_intense_cases_deaths <- summary(lm_intense_case_deaths)
@@ -473,7 +471,7 @@ print(paste("Valeur de P: ", p_val_intense_cases_death))
 La valeur de p obtenue (0.507) nous permet de rejeter l'hypothèse nulle, confirmant ainsi que le taux de cas en soins intensifs a un impact significatif sur le taux d'hospitalisation. Cela indique une relation statistiquement significative entre les admissions en soins intensifs et les taux d'hospitalisation, soulignant l'importance des cas graves dans l'analyse des tendances hospitalières.
 
 ### TAUX D'HOSPITALISATIONS PAR SAISON
-Pour visualiser mieux l'activiter saisonial des hopitaux on aimerais étudier le taux d'hospitalisations en fonctions de saisons.
+Pour visualiser mieux l'activiter saisonial des hopitaux on aimerais étudier le taux d'hospitalisations en fonctions des saisons.
 
 ```{r TAUX D'HOSPITALISATION PAR SAISON}
 hosp_rate_10K <- dbGetQuery(
@@ -499,7 +497,7 @@ On remarque alors un fort taux d'hospitalisation en Hiver(2.364) et les saisons 
 
 
 ### ETUDE D'HOSPITALISATIONS PENDANT LA PANDEMIE (2019-2020) ET HORS PERIODE COVID (2018-2021)
-
+Pour cela, nous allons étudier le taux d'hospitalisation pendant la période de COVID et hors période COVID pour voir s'il y a eu plus de cas pendant la pandémie ou en dehors de celle-ci.
 ```{r GRAPHE COMPARAISON DES HOSPITALISATIONS 2019-2020 ET 2018-2021}
 hosp_rate_10K_covid_horscovid <- dbGetQuery(
   connection,
@@ -594,6 +592,7 @@ D'apres les taux rélévés de cet examen, il est observé que le printemps a co
 ## ETUDE DE VARIABLE TEMPERATURE
 --------------------------------
 ### Indice CDD/HDD
+Nous allons maintenant étudier la température et, plus précisément, l'indice CDD/HDD pour appuyer la conclusion précédente. L'indice CDD/HDD indique si un bâtiment a besoin d'énergie pour le chauffage ou le refroidissement sur une période donnée. Cette analyse sera représentée graphiquement ci-dessous.
 
 ```{r GRAPH DE l'INDICE CDD/HDD}
 cdd_hdd_query <- "
@@ -641,7 +640,7 @@ Les indices CDD/HDD de 2018 à 2021 reflète partiellement la corrélation faibl
 ## CORRELATION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALSATION
 ----------------------------------
 ### COEFFICIENT DE CORRELATION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
-On aimerait voir s'il y a plus d'hospitalisations avec une hausse de la température ou l'inverse.
+Nous allons étudier les taux d'hospitalisations et les températures pour examiner la relation entre ces deux variables.
 ```{r GRAPH DE OEFFICIENT DE CORRELATION (TEMP vs TAUX HOSP) pressure, echo=FALSE}
 temps_hosp_data <- dbGetQuery(
   connection,
@@ -681,7 +680,7 @@ plot(
 
 abline(lm_hosp_temp, col = "red")
 ```
-J’ai utilisé 10 000 habitants comme référence pour standardiser le taux d’hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.21, il existe une faible relation négative entre la température et le taux d’hospitalisation. Cela suggère une légère tendance à la baisse des hospitalisations avec l’augmentation des températures. Toutefois, cette relation est faible et indique que d’autres facteurs pourraient jouer un rôle plus significatif dans les taux d’hospitalisation. Cette analyse met en lumière la complexité des facteurs affectant les hospitalisations.
+Nous avons utilisé 10 000 habitants comme référence pour standardiser le taux d’hospitalisation. Selon le calcul du coefficient de corrélation, qui est de -0.21, il existe une faible relation négative entre la température et le taux d’hospitalisation. Cela suggère une légère tendance à la baisse des hospitalisations avec l’augmentation des températures. La correlation n'implique pas la prediction. Alors nous devions analyser l'influence de la temperature sur lex taux d'hospitalisations.
 
 
 ### ANALYSE DE REGRESSION ENTRE LA TEMPERATURE ET LE TAUX D'HOSPITALISATIONS
@@ -698,11 +697,12 @@ print(summary_hosp_temp)
 La valeur p obtenue pour le coefficient associé à la température moyenne (MEAN_TEMP) est inférieure à 2e-16, ce qui est extrêmement petit. Cela indique que la relation entre la température moyenne et le taux d'hospitalisation est statistiquement significative. En d'autres termes, nous pouvons rejeter l'hypothèse nulle selon laquelle il n'y a pas de relation entre ces deux variables.
 
 # CONCLUSION
--------------
+----------------
+En somme, cette étude a mis en évidence des liens potentiels entre les températures, les taux d'hospitalisation et les taux de soins intensifs, tout en prenant en compte les effets démographiques et saisonniers. Bien que la température semble avoir une influence modeste sur les hospitalisations, les facteurs démographiques tels que l'âge jouent un rôle plus conséquent dans la gravité des cas de COVID-19. Les analyses statistiques ont révélé des corrélations et ont permis de construire des modèles de régression significatifs, offrant ainsi une meilleure compréhension des dynamiques de la santé publique pendant la pandémie. Cette recherche souligne l'importance de combiner diverses méthodes analytiques pour interpréter les tendances complexes de la santé publique et former des réponses politiques adaptées.
 
 
-
-
+## DECONNEXION
+Nous déconnectons de la base de données en signe de bonne pratique.
 ```{r SIGNING OUT}
 dbDisconnect(connection)
 ```
