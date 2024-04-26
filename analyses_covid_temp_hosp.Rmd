@@ -4,7 +4,7 @@ author: "
   Michael NYANYUIE,
   Divin IZERE,
   Lucky Bernice IKAZE,
-  Medhi HIMMICHE,
+  Mehdi HIMMICHE,
   Rayane BENCHOKROUN
 "
 date: "2024-03-23"
@@ -107,7 +107,7 @@ hist(
 )
 
 ```
-L'observation des histogrammes révèle une forme de courbe en cloche, indiquant une distribution normale des données. Cette caractéristique suggère que la majorité des observations se concentre autour de la moyenne, validant l'utilisation de méthodes statistiques paramétriques pour notre analyse
+L'observation des histogrammes révèle une forme de courbe en cloche, indiquant une distribution normale des données. Cette caractéristique suggère que la majorité des observations se concentre autour de la moyenne, validant l'utilisation de méthodes statistiques paramétriques pour notre analyse.
 
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE HOSPITALISATION }
 hosp_data <- dbGetQuery(
@@ -151,7 +151,7 @@ hist(
 )
 ```
 
-Les données présentées dans les histogrammes montrent une distribution asymétrique, où les cas de soins intensifs, les décès et les retours à domicile sont concentrés vers les valeurs inférieures de l'axe des abscisses. Cela indique une distribution fortement biaisée à droite, suggérant que la majorité des observations se situent en dessous de la moyenne, avec des valeurs extrêmes qui étirent la queue de la distribution vers des valeurs plus élevées
+Les données présentées dans les histogrammes montrent une distribution asymétrique, où les cas de soins intensifs, les décès et les retours à domicile sont concentrés vers les valeurs inférieures de l'axe des abscisses. Cela indique une distribution fortement biaisée à droite, suggérant que la majorité des observations se situent en dessous de la moyenne, avec des valeurs extrêmes qui étirent la queue de la distribution vers des valeurs plus élevées.
 
 ```{r REPRESENTATION GRAPHIQUE LA DISTRIBUTION DE POPULATION }
 pop_data <- dbGetQuery(
@@ -177,7 +177,8 @@ hist(
 ------------------------------------
 
 ## ETUDE DE TAUX DE CAS INTENSIVES POUR LES DIFFERENTES TRANCHES D'AGES PENDANT LA PANDEMIE
-```{r GRAPHE DE CAS INTENSIVE PAR TRANCHE D'AGE}
+Pour cette étude on devraient connaitre quel partie de la population a été le plus impacté par le covid-19. Pour cela on doit se servir des taux des soins intensifs calculés par tranche d'âge, et grâce à ces données on pourra construire un histogramme clarifiant les tranches d'âges les plus impactés.
+```{r GRAPHE DE CAS INTENSIFS PAR TRANCHE D'AGE}
 intense_cases_groups <- dbGetQuery(
   connection,
   "SELECT
@@ -219,13 +220,13 @@ barplot(
 )
 
 ```
-Le graphe indiquent une augmentation notable des taux d'admission en soins intensifs parmi les différents groupes d'âge entre 2020 et 2021. Particulièrement, les groupes d'âge les plus âgés (75 ans et plus) montrent le taux le plus élevé d'admission en soins intensifs, soulignant l'impact disproportionné de la situation sanitaire sur cette tranche d'âge. 
+Le graphe indiquent une augmentation notable des taux d'admission en soins intensifs parmi les différents groupes d'âge entre 2020 et 2021. Particulièrement, les groupes d'âge les plus âgés (75 ans et plus) montrent le taux le plus élevé d'admission en soins intensifs, soulignant l'impact disproportionné de la situation sanitaire sur cette tranche d'âge. La question donc se pose est-ce qu'il y a une relation entre les cas intensifs et le taux de morts?
 
 <!-- Cette tendance suggère l'importance d'une attention et d'une protection accrues pour les populations âgées en période de crise sanitaire, en alignement avec les stratégies de santé publique visant à minimiser les risques et à optimiser les soins pour les groupes les plus vulnérables. -->
 
 
 ## ETUDES DE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES. 
-La question donc se pose est-ce qu'il y a une relation entre les cas intansifs et le taux d'hospitalisations?
+Pour Répondre à la question poser précédemment on vas utiliser les taux de morts calculer par tranches d'âges. Grâce à ce resultat on pourra savoir quel tranche d'âge qui a subit le plus de décès et en même temps de voir si le covid-19 à eu une grande influence sur le taux de mort.
 
 ```{r GRAPHE TAUX DE MORTS POUR LES DIFFERENTES TRANCHES D'AGE}
 deaths_groups <- dbGetQuery(
@@ -265,7 +266,7 @@ barplot(
   col = "skyblue"
 )
 ```
-En 2020, le groupe le plus touché par les décès est celui des personnes âgées de 75 ans et plus, tandis que le groupe le moins affecté est celui des 0-19 ans. Cette différence souligne la susceptibilité accrue des personnes âgées aux issues graves, nécessitant une analyse plus approfondie pour déterminer si les taux élevés de décès sont directement corrélés aux cas nécessitant des soins intensifs. Comprendre cette corrélation aidera à cibler les interventions et à allouer les ressources de manière plus efficace pour protéger les populations vulnérables.
+En 2020, le groupe le plus touché par les décès est celui des personnes âgées de 75 ans et plus, tandis que le groupe le moins affecté est celui des 0-19 ans. Cette différence souligne la susceptibilité accrue des personnes âgées aux issues graves, nécessitant une analyse plus approfondie pour déterminer si les taux élevés de décès sont directement corrélés aux cas nécessitant des soins intensifs.
 
 
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSIFS ET LE TAUX DE MORTALITE POUR LES DIFFERENTES TRANCHES D'AGES EN 2020
@@ -346,6 +347,7 @@ En 2020, le groupe d'âge des 75 ans et plus a enregistré le taux le plus élev
 
 
 ### ETUDE COMPARATIVE DE TEMPERATURES MOYENNES ET TAUX DE SOINS INTENSIFS PAR REGION
+Maintenant qu'on a une vu plus globale dans ce qui concerne le pays par tranches d'âges, pour clarifier plus nos recherches on doit savoir si la temperatures était un facteur majeur qui influe sur les soins intensif. Pour ça en comparera le coté NORD de la france connue pour ces températures basses et coté SUD qui est le cas contraire, en créant une carte thermique pour mieux visualier les valeurs. Grâce â cette comparaison on pourra conclure sur le lien entre température et décès.
 
 ```{r CARTE THERMIQUE DES TEMPÉRATURES MOYENNES ET DES TAUX DE SOINS INTENSIFS RÉGIONAUX}
 library(pheatmap)
@@ -396,6 +398,8 @@ pheatmap(data_matrix,
 Sur la base des données représentées sur la carte thermique, on peut conclure que la région Sud de la France présente une température moyenne plus élevée (14.19°C) par rapport à la région Nord (12.90°C). Cependant, malgré des températures plus clémentes, le taux de soins intensifs dans la région Sud est inférieur (0.2213 pour 10 000 habitants) à celui de la région Nord (0.2580 pour 10 000 habitants). 
 
 ### LA CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTALITE SUR TOUTE LA POPULATION
+On a pu conclure la correlation entre les taux de cas intenses et les taux de mortalites par tranches d'âges, mais sa sera plus intéressant de voir coté population qu'est ce ça donne. ça aidera mieux visualiser les changements démographique à une échelle plus grande.
+
 ```{r GRAPHE CORRELATION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS}
 intense_case_deaths_data <- dbGetQuery(
   connection,
@@ -457,7 +461,7 @@ Un coefficient de corrélation de 0.55 indique une relation linéaire positive m
 
 
 #### TEST DE STUDENT | ETUDE DE REGRESSION ENTRE LE TAUX DE CAS INTENSE ET LE TAUX DE MORTS
-Nous allons maintenant réaliser un test de Student pour vérifier si nous pouvons rejeter l'hypothèse nulle concernant le coefficient de corrélation.
+Nous allons maintenant réaliser un test de Student pour vérifier si nous pouvons rejeter l'hypothèse nulle concernant le coefficient de corrélation tout en confirmant ce que les conclusions statistiques sont bien refletent les conclusions deduites.
 ```{r T TEST}
 
 summary_intense_cases_deaths <- summary(lm_intense_case_deaths)
@@ -469,7 +473,7 @@ print(paste("Valeur de P: ", p_val_intense_cases_death))
 La valeur de p obtenue (0.507) nous permet de rejeter l'hypothèse nulle, confirmant ainsi que le taux de cas en soins intensifs a un impact significatif sur le taux d'hospitalisation. Cela indique une relation statistiquement significative entre les admissions en soins intensifs et les taux d'hospitalisation, soulignant l'importance des cas graves dans l'analyse des tendances hospitalières.
 
 ### TAUX D'HOSPITALISATIONS PAR SAISON
-On aimerais étudier le taux d'hospitalisations en fonctions de saisons
+Pour visualiser mieux l'activiter saisonial des hopitaux on aimerais étudier le taux d'hospitalisations en fonctions de saisons.
 
 ```{r TAUX D'HOSPITALISATION PAR SAISON}
 hosp_rate_10K <- dbGetQuery(
