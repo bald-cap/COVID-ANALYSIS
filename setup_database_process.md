@@ -86,6 +86,5 @@ Après avoir rempli les tables avec des données, des contraintes de clé étran
   - Les entrées pour les sexes masculin et féminin ont été supprimées de la table HOSPITALISATIONS pour se concentrer éventuellement sur d'autres catégories ou pour corriger des erreurs de saisie de données.
   - *Commande SQL* (hypothétique, car des valeurs spécifiques pour SEXE n'ont pas été fournies) :
     ```sql
- DELETE FROM HOSPITALISATIONS WHERE SEX = 1 OR SEX = 2
 
     ```
