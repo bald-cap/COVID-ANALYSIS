@@ -84,6 +84,70 @@ La dernière étape consistait à supprimer les données qui n'étaient pas néc
 - *Suppression de Catégories de Sexe Spécifiques* :
   - Les entrées pour les sexes masculin et féminin ont été supprimées de la table HOSPITALISATIONS pour se concentrer éventuellement sur d'autres catégories ou pour corriger des erreurs de saisie de données.
   - *Commande SQL* (hypothétique, car des valeurs spécifiques pour SEXE n'ont pas été fournies) :
-    sql
+    ```sql
     
     DELETE FROM HOSPITALISATIONS WHERE SEX = 1 OR SEX = 2;  -- En supposant que '1' et '2' représentent masculin et féminin
+    ```
+
+ ### 6. Utilisation de CTE et Logique Conditionnelle dans les Requêtes
+
+Au lieu de créer des tables permanentes avec des variables spécifiques ou des ensembles de données pour notre analyse, nous avons souvent utilisé des Expressions de Table Communes (CTEs) ou une logique conditionnelle dans nos requêtes SQL. Cette approche nous permet de créer des tables temporaires, sur le moment, qui peuvent être adaptées à des analyses spécifiques et produire les résultats attendus. Voici quelques exemples de comment nous avons utilisé des CTE et des instructions conditionnelles :
+
+#### Exemple 1 : Analyse Régionale des Hospitalisations
+
+Cette requête calcule le nombre moyen d'hospitalisations et catégorise les départements par régions :
+
+```sql
+SELECT 
+    AVG(H.NUM_HOSP) AS AVG_NUM_HOSP,
+    CASE 
+        WHEN H.DEP_ID IN ('59', '62', '80', '60', '02', '76', '14', '50', '27', '77', '95') THEN 'Nord'
+        WHEN H.DEP_ID IN ('13', '83', '84', '06', '31', '33', '66', '34', '11', '30', '24') THEN 'Sud'
+        ELSE 'D.O.M'
+    END AS 'REGIONS'
+FROM HOSPITALISATIONS H
+INNER JOIN PROJET_DEP D ON H.DEP_ID = D.codeD
+GROUP BY REGIONS
+ORDER BY AVG_NUM_HOSP DESC;
+
+#### Exemple 2 : Analyse Saisonnière Pendant et Hors Périodes COVID
+
+Cet ensemble de CTE analyse les taux d'hospitalisation à travers différentes saisons pendant et en dehors des périodes COVID-19 :
+
+sql
+Copy code
+-- SAISONS PENDANT ET HORS PÉRIODES COVID
+AVEC PERIODE_COVID AS(
+    SELECT
+        AVG((NUM_HOSP/ total) * 10000) AS TAU_HOSP_PENDANT_COVID,
+        CASE
+        WHEN MONTH(DATE_HOSP) IN (12, 1, 2) THEN 'Hiver'
+        WHEN MONTH(DATE_HOSP) IN (3, 4, 5) THEN 'Printemps'
+        WHEN MONTH(DATE_HOSP) IN (6, 7, 8) THEN 'Été'
+        WHEN MONTH(DATE_HOSP) IN (9, 10, 11) THEN 'Automne'
+        END AS 'SAISONS'
+    FROM HOSPITALISATIONS H
+    INNER JOIN PROJET_POPU P
+    ON H.DEP_ID = P.codeD
+    WHERE DATE_HOSP LIKE '2020-%' OR DATE_HOSP LIKE '2019-%'
+    GROUP BY SEASONS
+), HORS_COVID AS(
+    SELECT
+        AVG((NUM_HOSP/ total) * 10000) AS TAU_HOSP_HORS_COVID,
+        CASE
+        WHEN MONTH(DATE_HOSP) IN (12, 1, 2) THEN 'Hiver'
+        WHEN MONTH(DATE_HOSP) IN (3, 4, 5) THEN 'Printemps'
+        WHEN MONTH(DATE_HOSP) IN (6, 7, 8) THEN 'Été'
+        WHEN MONTH(DATE_HOSP) IN (9, 10, 11) THEN 'Automne'
+        END AS 'SAISONS'
+    FROM HOSPITALISATIONS H
+    INNER JOIN PROJET_POPU P
+    ON H.DEP_ID = P.codeD
+     WHERE DATE_HOSP LIKE '2018-%' OR DATE_HOSP LIKE '2021-%'
+    GROUP BY SEASONS
+)
+SELECT TAU_HOSP_PENDANT_COVID, TAU_HOSP_HORS_COVID, CP.SEASONS
+FROM PERIODE_COVID CP
+INNER JOIN HORS_COVID HC
+ON CP.SEASONS = HC.SEASONS
+ORDER BY TAU_HOSP_PENDANT_COVID DESC, TAU_HOSP_HORS_COVID DESC;
