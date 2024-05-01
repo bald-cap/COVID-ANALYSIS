@@ -76,11 +76,11 @@ La dernière étape consistait à supprimer les données qui n'étaient pas néc
 - *Suppression des Années Spécifiques* :
   - Les données au-delà de 2021 ont été jugées non pertinentes pour l'analyse et ont été supprimées des deux tables.
   - *Commandes SQL pour la Suppression des Données* :
-    sql
+    ```sql
     DELETE FROM TEMPERATURES WHERE DATE_TEMP LIKE '2022-%' OR DATE_TEMP LIKE '2023-%' OR DATE_TEMP LIKE '2024-%';
 
     DELETE FROM HOSPITALISATIONS WHERE DATE_HOSP LIKE '2022-%' OR DATE_HOSP LIKE '2023-%';
-    
+    ```
 
 - *Suppression de Catégories de Sexe Spécifiques* :
   - Les entrées pour les sexes masculin et féminin ont été supprimées de la table HOSPITALISATIONS pour se concentrer éventuellement sur d'autres catégories ou pour corriger des erreurs de saisie de données.
@@ -110,6 +110,7 @@ FROM HOSPITALISATIONS H
 INNER JOIN PROJET_DEP D ON H.DEP_ID = D.codeD
 GROUP BY REGIONS
 ORDER BY AVG_NUM_HOSP DESC;
+```
 
  Exemple 2 : Analyse Saisonnière Pendant et Hors Périodes COVID
 
@@ -151,3 +152,4 @@ FROM PERIODE_COVID CP
 INNER JOIN HORS_COVID HC
 ON CP.SEASONS = HC.SEASONS
 ORDER BY TAU_HOSP_PENDANT_COVID DESC, TAU_HOSP_HORS_COVID DESC;
+```
