@@ -65,4 +65,23 @@ Après avoir rempli les tables avec des données, des contraintes de clé étran
   - *HOSPITALISATIONS* :
     ```sql
     ALTER TABLE HOSPITALISATIONS ADD CONSTRAINT hosp_depID_fk FOREIGN KEY (DEP_ID) REFERENCES PROJET_DEP(codeD);
+  
     ```
+ ### 5. Filtrage des Données Inutiles
+
+"La dernière étape consistait à supprimer les données qui n'étaient pas nécessaires pour l'analyse :
+
+- *Suppression des Années Spécifiques* :
+  - Les données au-delà de 2021 ont été jugées non pertinentes pour l'analyse et ont été supprimées des deux tables.
+  - *Commandes SQL pour la Suppression des Données* :
+    sql
+    DELETE FROM TEMPERATURES WHERE DATE_TEMP LIKE '2022-%' OR DATE_TEMP LIKE '2023-%' OR DATE_TEMP LIKE '2024-%';
+
+    DELETE FROM HOSPITALISATIONS WHERE DATE_HOSP LIKE '2022-%' OR DATE_HOSP LIKE '2023-%';
+    
+
+- *Suppression de Catégories de Sexe Spécifiques* :
+  - Les entrées pour les sexes masculin et féminin ont été supprimées de la table HOSPITALISATIONS pour se concentrer éventuellement sur d'autres catégories ou pour corriger des erreurs de saisie de données.
+  - *Commande SQL* (hypothétique, car des valeurs spécifiques pour SEXE n'ont pas été fournies) :
+    sql
+    DELETE FROM HOSPITALISATIONS WHERE SEX IN (1, 2);  -- En supposant que '1' et '2' représentent masculin et féminin
