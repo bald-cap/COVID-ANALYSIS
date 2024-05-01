@@ -49,9 +49,10 @@ Une fois les tables créées, les données ont été importées à partir de fic
 - *Standardisation des Identifiants de Département* :
   - Les champs DEP_ID des tables TEMPERATURES et HOSPITALISATIONS ont été ajustés pour correspondre au format de PROJET_DEP. Cela impliquait la suppression des zéros non significatifs qui pourraient causer des incohérences lors des jointures de données.
   - *Commandes SQL pour le Nettoyage* :
-    sql
+    ```sql
     UPDATE TEMPERATURES SET DEP_ID = SUBSTRING(DEP_ID, 2) WHERE DEP_ID LIKE '0%';
     UPDATE HOSPITALISATIONS SET DEP_ID = SUBSTRING(DEP_ID, 2) WHERE DEP_ID LIKE '0%';
+    ```
 ### 4. Ajout des Clés Étrangères
 
 Après avoir rempli les tables avec des données, des contraintes de clé étrangère ont été ajoutées pour assurer l'intégrité des données et la cohérence relationnelle :
