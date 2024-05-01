@@ -111,7 +111,7 @@ INNER JOIN PROJET_DEP D ON H.DEP_ID = D.codeD
 GROUP BY REGIONS
 ORDER BY AVG_NUM_HOSP DESC;
 
-#### Exemple 2 : Analyse Saisonnière Pendant et Hors Périodes COVID
+ Exemple 2 : Analyse Saisonnière Pendant et Hors Périodes COVID
 
 Cet ensemble de CTE analyse les taux d'hospitalisation à travers différentes saisons pendant et en dehors des périodes COVID-19 :
 
