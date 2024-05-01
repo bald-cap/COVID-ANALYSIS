@@ -41,7 +41,17 @@ Une fois les tables créées, les données ont été importées à partir de fic
 
 - *Segmentation et Importation* : Le jeu de données original a été divisé en morceaux gérables pour faciliter le traitement efficace. Chaque type de données (TEMPERATURES et HOSPITALISATIONS) a été divisé en au moins cinq fichiers CSV, chacun contenant environ 20 000 enregistrements.
   - *Processus d'Importation* : Les données de ces fichiers ont été importées dans les tables respectives, en veillant à ce que tous les enregistrements soient correctement positionnés pour un traitement et une analyse ultérieurs.
-### 3. Ajout des Clés Étrangères
+    ### 3. Nettoyage des Données
+
+"Avant d'appliquer les contraintes relationnelles, il était essentiel de standardiser et nettoyer les données pour garantir la cohérence entre les tables :
+
+- *Standardisation des Identifiants de Département* :
+  - Les champs DEP_ID des tables TEMPERATURES et HOSPITALISATIONS ont été ajustés pour correspondre au format de PROJET_DEP. Cela impliquait la suppression des zéros non significatifs qui pourraient causer des incohérences lors des jointures de données.
+  - *Commandes SQL pour le Nettoyage* :
+    sql
+    UPDATE TEMPERATURES SET DEP_ID = SUBSTRING(DEP_ID, 2) WHERE DEP_ID LIKE '0%';
+    UPDATE HOSPITALISATIONS SET DEP_ID = SUBSTRING(DEP_ID, 2) WHERE DEP_ID LIKE '0%';
+### 4. Ajout des Clés Étrangères
 
 Après avoir rempli les tables avec des données, des contraintes de clé étrangère ont été ajoutées pour assurer l'intégrité des données et la cohérence relationnelle :
 
