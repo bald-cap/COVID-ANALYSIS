@@ -85,4 +85,5 @@ La dernière étape consistait à supprimer les données qui n'étaient pas néc
   - Les entrées pour les sexes masculin et féminin ont été supprimées de la table HOSPITALISATIONS pour se concentrer éventuellement sur d'autres catégories ou pour corriger des erreurs de saisie de données.
   - *Commande SQL* (hypothétique, car des valeurs spécifiques pour SEXE n'ont pas été fournies) :
     sql
+    
     DELETE FROM HOSPITALISATIONS WHERE SEX = 1 OR SEX = 2;  -- En supposant que '1' et '2' représentent masculin et féminin
