@@ -1,4 +1,5 @@
 
+
  ### 1. Création des Tables
 
 Le processus a débuté par la création de deux tables principales conçues pour stocker les données pertinentes :
@@ -114,8 +115,7 @@ ORDER BY AVG_NUM_HOSP DESC;
 
 Cet ensemble de CTE analyse les taux d'hospitalisation à travers différentes saisons pendant et en dehors des périodes COVID-19 :
 
-sql
-Copy code
+```sql
 -- SAISONS PENDANT ET HORS PÉRIODES COVID
 AVEC PERIODE_COVID AS(
     SELECT
