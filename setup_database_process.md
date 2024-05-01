@@ -41,7 +41,8 @@ Une fois les tables créées, les données ont été importées à partir de fic
 
 - *Segmentation et Importation* : Le jeu de données original a été divisé en morceaux gérables pour faciliter le traitement efficace. Chaque type de données (TEMPERATURES et HOSPITALISATIONS) a été divisé en au moins cinq fichiers CSV, chacun contenant environ 20 000 enregistrements.
   - *Processus d'Importation* : Les données de ces fichiers ont été importées dans les tables respectives, en veillant à ce que tous les enregistrements soient correctement positionnés pour un traitement et une analyse ultérieurs.
-    ### 3. Nettoyage des Données
+
+ ### 3. Nettoyage des Données
 
 "Avant d'appliquer les contraintes relationnelles, il était essentiel de standardiser et nettoyer les données pour garantir la cohérence entre les tables :
 
